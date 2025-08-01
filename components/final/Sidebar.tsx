@@ -19,6 +19,7 @@ import {
   Funnel
 } from 'lucide-react';
 import Link from 'next/link';
+import TransactionTypeDialog from '../dialogbox';
 
 export const TopNavbar = () => {
   return (
@@ -103,13 +104,7 @@ export const Sidebar = () => {
       {/* New Transaction Button */}
       {!isCollapsed && (
         <div className="p-4 flex-shrink-0">
-          <button className="w-full bg-black text-white rounded-lg py-2 px-3 flex items-center justify-between text-sm font-medium hover:bg-gray-800 transition-colors">
-            <div className="flex items-center space-x-2">
-              <Plus size={16} />
-              <span>New Transaction</span>
-            </div>
-            <ChevronRight size={16} />
-          </button>
+         <TransactionTypeDialog/>
         </div>
       )}
 

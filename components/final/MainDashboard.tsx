@@ -301,7 +301,7 @@ export default function MainDashboard() {
         </div>
 
         {/* Upcoming Closings */}
-  <Card className="bg-white border border-gray-200 shadow-sm">
+  <div className="bg-white border border-gray-200 shadow-sm">
   <CardHeader className="pb-2">
     <div className="flex items-center justify-between">
       <CardTitle className="text-base font-semibold flex items-center">
@@ -361,7 +361,7 @@ export default function MainDashboard() {
       ))}
     </div>
   </CardContent>
-</Card>
+</div>
 
 
 

@@ -115,7 +115,7 @@ const ProjectManagementUI = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-gray-300 px-6 bg-gray-100">
+      <div className="border-b border-gray-300 px-6 bg-gray-100 rounded-md">
         <nav className="flex items-center justify-between p-1  ">
           {tabs.map((tab) => (
             <button

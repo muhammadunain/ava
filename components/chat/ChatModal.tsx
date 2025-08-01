@@ -1,16 +1,15 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { MessageCircle, X, ThumbsUp, ThumbsDown, Copy, ArrowUp, Plus, Sparkle, SparkleIcon, SquareParking, SparklesIcon } from 'lucide-react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
+import { MessageCircle, X, ThumbsUp, ThumbsDown, Copy, ArrowUp, Plus, SparklesIcon } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 type Message = {
   role: 'user' | 'assistant'
   content: string
 }
 
-export default function WorkingChatbot() {
+export default function FullScreenChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -19,7 +18,7 @@ export default function WorkingChatbot() {
   ])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isChatOpen, setIsChatOpen] = useState(false)
   const controllerRef = useRef<AbortController | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
@@ -44,30 +43,20 @@ export default function WorkingChatbot() {
     controllerRef.current = new AbortController()
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        body: JSON.stringify({ messages: newMessages }),
-        headers: { 'Content-Type': 'application/json' },
-        signal: controllerRef.current.signal,
-      })
-
-      if (!res.body) throw new Error('No stream body')
-
-      const reader = res.body.getReader()
-      const decoder = new TextDecoder()
-      let assistantMessage = ''
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        const chunk = decoder.decode(value)
-        assistantMessage += chunk
-
-        setMessages([...newMessages, { role: 'assistant', content: assistantMessage }])
-      }
+      // Simulate API call for demo
+      setTimeout(() => {
+        const responses = [
+          "I'll help you with that right away!",
+          "Let me process that information for you.",
+          "Here's what I found based on your request.",
+          "I've completed the analysis. Here are the details you requested."
+        ]
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)]
+        setMessages([...newMessages, { role: 'assistant', content: randomResponse }])
+        setIsLoading(false)
+      }, 1500)
     } catch (err) {
       console.error('Stream error:', err)
-    } finally {
       setIsLoading(false)
     }
   }
@@ -86,30 +75,37 @@ export default function WorkingChatbot() {
   return (
     <>
       {/* Fixed Footer Button */}
-      {!isModalOpen && (
-      <Button
-  onClick={() => setIsModalOpen(true)}
-  className="fixed bottom-6 cursor-pointer right-6 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-200 z-50"
->
-  <SparklesIcon size={20} />
-  <span className="text-sm font-medium">AVA</span>
-</Button>
-
+      {!isChatOpen && (
+        <Button
+          onClick={() => setIsChatOpen(true)}
+          className="fixed bottom-6 right-6 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-200 z-50"
+        >
+          <SparklesIcon size={20} />
+          <span className="text-sm font-medium">AVA</span>
+        </Button>
       )}
 
-      {/* Shadcn Dialog */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-md h-[90vh] p-0 gap-0 bg-white border-0 shadow-2xl">
-          {/* Custom Header */}
-          <DialogHeader className="flex flex-row items-center justify-between p-4 border-b border-gray-100 space-y-0">
+      {/* Full Screen Chat Interface */}
+      {isChatOpen && (
+        <div className="fixed inset-0 z-50 bg-white flex flex-col">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <MessageCircle size={16} className="text-white" />
+              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                <MessageCircle size={20} className="text-white" />
               </div>
-              <DialogTitle className="font-medium text-gray-900 text-base">AVA</DialogTitle>
+              <div>
+                <h1 className="font-medium text-gray-900 text-lg">AVA</h1>
+                <p className="text-xs text-gray-500">AI Assistant</p>
+              </div>
             </div>
-           
-          </DialogHeader>
+            <button
+              onClick={() => setIsChatOpen(false)}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            >
+              <X size={20} className="text-gray-500" />
+            </button>
+          </div>
 
           {/* Messages Container */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50">
@@ -117,8 +113,8 @@ export default function WorkingChatbot() {
               <div key={i} className="space-y-3">
                 {msg.role === 'assistant' ? (
                   <div className="flex gap-3">
-                    <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <MessageCircle size={14} className="text-white" />
+                    <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                      <MessageCircle size={16} className="text-white" />
                     </div>
                     <div className="flex-1 max-w-[85%]">
                       <div className="bg-white rounded-2xl rounded-tl-md p-4 text-sm text-gray-800 leading-relaxed shadow-sm border border-gray-100">
@@ -170,8 +166,8 @@ export default function WorkingChatbot() {
             
             {isLoading && (
               <div className="flex gap-3">
-                <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                  <MessageCircle size={14} className="text-white" />
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <MessageCircle size={16} className="text-white" />
                 </div>
                 <div className="bg-white rounded-2xl rounded-tl-md p-4 shadow-sm border border-gray-100">
                   <div className="flex gap-1">
@@ -192,7 +188,7 @@ export default function WorkingChatbot() {
 
           {/* Input Area */}
           <div className="p-4 bg-white border-t border-gray-100">
-            <div className="relative">
+            <div className="relative max-w-4xl mx-auto">
               <div className="flex items-center gap-2 bg-gray-50 rounded-full p-1 border border-gray-200">
                 <button
                   type="button"
@@ -205,7 +201,7 @@ export default function WorkingChatbot() {
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyPress={e => e.key === 'Enter' && handleSubmit(e)}
-                  className="flex-1 bg-transparent px-3 py-3 text-sm placeholder-gray-500 focus:outline-none"
+                  className="flex-1 bg-transparent px-3 py-3 text-sm placeholder-gray-500 border-0 focus:ring-0 focus:outline-none"
                   placeholder="Ask, use / for commands, @ for mentions, # for references"
                   disabled={isLoading}
                 />
@@ -222,8 +218,8 @@ export default function WorkingChatbot() {
               <span className="text-xs text-gray-400">Ava can make mistakes. Verify important information.</span>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </>
   )
 }

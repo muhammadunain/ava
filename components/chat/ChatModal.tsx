@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { MessageCircle, X, ThumbsUp, ThumbsDown, Copy, ArrowUp, Plus, SparklesIcon } from 'lucide-react'
+import { MessageCircle, X, ThumbsUp, ThumbsDown, Copy, ArrowUp, Plus, Sparkles } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
@@ -80,30 +80,29 @@ export default function FullScreenChatbot() {
           onClick={() => setIsChatOpen(true)}
           className="fixed bottom-6 right-6 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-200 z-50"
         >
-          <SparklesIcon size={20} />
+          <Sparkles size={20} />
           <span className="text-sm font-medium">AVA</span>
         </Button>
       )}
 
-      {/* Full Screen Chat Interface */}
+      {/* Half Screen Chat Interface */}
       {isChatOpen && (
-        <div className="fixed inset-0 z-50 bg-white flex flex-col">
+        <div className="fixed top-0 right-0 w-96 h-full z-50 bg-white flex flex-col shadow-2xl border-l border-gray-200">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                <MessageCircle size={20} className="text-white" />
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <MessageCircle size={16} className="text-white" />
               </div>
               <div>
-                <h1 className="font-medium text-gray-900 text-lg">AVA</h1>
-                <p className="text-xs text-gray-500">AI Assistant</p>
+                <h1 className="font-medium text-gray-900 text-base">AVA</h1>
               </div>
             </div>
             <button
               onClick={() => setIsChatOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-1 hover:bg-gray-100 rounded-full transition-colors"
             >
-              <X size={20} className="text-gray-500" />
+              <X size={18} className="text-gray-500" />
             </button>
           </div>
 

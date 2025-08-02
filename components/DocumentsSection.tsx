@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Plus, Download, Eye, Trash2, Check } from "lucide-react";
+import AddDocumentForm from "./dialog/DocumentDialog";
 
 export function DocumentsSection() {
   return (
@@ -15,10 +16,7 @@ export function DocumentsSection() {
               className="pl-10 w-80"
             />
           </div>
-          <Button className="bg-primary hover:bg-primary/90">
-            <Plus className="h-4 w-4 mr-2" />
-            New
-          </Button>
+          <AddDocumentForm/>
         </div>
       </div>
 

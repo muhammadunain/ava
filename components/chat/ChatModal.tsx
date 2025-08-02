@@ -78,7 +78,7 @@ export default function FullScreenChatbot() {
       {!isChatOpen && (
         <Button
           onClick={() => setIsChatOpen(true)}
-          className="fixed bottom-6 right-6 flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-200 z-50"
+          className="fixed bottom-6 right-6 cursor-pointer flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-200 z-50"
         >
           <Sparkles size={20} />
           <span className="text-sm font-medium">AVA</span>

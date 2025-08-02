@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, Plus, FileText, Edit3, Trash2, MessageSquare, Clock, Users, FileCheck, StickyNote, History, PenTool, Mail, Phone } from 'lucide-react';
+import { ChevronDown, ChevronRight, Plus, FileText, Edit3, Trash2, MessageSquare, Clock, Users, FileCheck, StickyNote, History, PenTool, Mail, Phone, ListTodo, MessageCircle, Info } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
@@ -8,6 +8,8 @@ import DeadlinesUI from '../DeadLinesUI';
 import { PropertyDetailsSection } from '../PropertyDetails';
 import { DocumentsSection } from '../DocumentsSection';
 import FullScreenChatbot from '../chat/ChatModal';
+import TaskDialogMain from '../dialog/TaskDialog';
+import NotesApp from '../dialog/NoteDialog';
 
 const ProjectManagementUI = () => {
   const [activeTab, setActiveTab] = useState('Tasks');
@@ -72,8 +74,15 @@ const ProjectManagementUI = () => {
     }
   ]);
 
-  const tabs = ['Tasks', 'Timeline', 'Follow up', 'Details', 'Documents', 'Notes', 'History'];
-
+ const tabs = [
+    { name: 'Tasks', icon: ListTodo },
+    { name: 'Timeline', icon: Clock },
+    { name: 'Follow up', icon: MessageCircle },
+    { name: 'Details', icon: Info },
+    { name: 'Documents', icon: FileText },
+    { name: 'Notes', icon: StickyNote },
+    { name: 'History', icon: History },
+  ];
   const totalTasks = tasks.length + completedTasks.length;
   const completedCount = completedTasks.length;
   const progressPercentage = totalTasks > 0 ? Math.round((completedCount / totalTasks) * 100) : 0;
@@ -117,17 +126,18 @@ const ProjectManagementUI = () => {
       {/* Navigation Tabs */}
       <div className="border-b border-gray-300 px-6 bg-gray-100 rounded-md">
         <nav className="flex items-center justify-between p-1  ">
-          {tabs.map((tab) => (
+          {tabs.map(({ name, icon: Icon }) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`py-2 px-1  font-medium text-sm w-full ${
-                activeTab === tab
-                  ? 'bg-white shadow-sm  rounded-sm  '
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              key={name}
+              onClick={() => setActiveTab(name)}
+              className={`py-2 px-2 flex items-center gap-1 cursor-pointer justify-center font-medium text-sm w-full ${
+                activeTab === name
+                  ? 'bg-white shadow-sm rounded-sm text-gray-900'
+                  : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              {tab}
+              <Icon className="w-4 h-4" />
+              <span>{name}</span>
             </button>
           ))}
         </nav>
@@ -146,10 +156,7 @@ const ProjectManagementUI = () => {
                     {tasks.length}
                   </span>
                 </h2>
-                <button className="bg-gray-900 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center space-x-2 hover:bg-gray-800">
-                  <Plus className="w-4 h-4" />
-                  <span>New</span>
-                </button>
+                <TaskDialogMain/>
               </div>
 
               <div className="space-y-2">
@@ -237,14 +244,12 @@ const ProjectManagementUI = () => {
         )}
 
         {activeTab === 'Timeline' && (
-          
-
-         <DeadlinesUI/>
+          <DeadlinesUI/>
           
         )}
 
         {activeTab === 'Follow up' && (
-           <div className="p-6">
+           <div className="">
             {/* Action Buttons */}
             <div className="flex gap-2 mb-6">
               <Button variant="outline" size="sm" className="flex items-center gap-2">
@@ -349,11 +354,7 @@ const ProjectManagementUI = () => {
         )}
 
         {activeTab === 'Notes' && (
-          <div className="text-center py-12">
-            <StickyNote className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Notes</h3>
-            <p className="text-gray-600">Add and manage project notes</p>
-          </div>
+          <NotesApp/>
         )}
 
         {activeTab === 'History' && (

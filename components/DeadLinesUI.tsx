@@ -9,156 +9,147 @@ import {
   Plus,
   ChevronDown,
   ChevronRight,
+  FileText,
+  Edit3
 } from 'lucide-react';
+import DeadLineDialog from './dialog/DeadLinesDialog';
 
-interface Deadline {
+interface Task {
   id: string;
   title: string;
-  date: string;
+  dueDate: string;
   completed: boolean;
 }
 
 const DeadlinesUI: React.FC = () => {
-  const [activeDeadlines, setActiveDeadlines] = useState<Deadline[]>([
-    { id: '1', title: 'Association Application Deadline', date: 'Saturday July 26, 2025', completed: false },
-    { id: '2', title: 'Effective Date', date: 'Saturday July 26, 2025', completed: false },
-    { id: '3', title: 'Initial Deposit Due Date', date: 'Tuesday July 29, 2025', completed: false },
-    { id: '4', title: 'Loan Application Deadline', date: 'Thursday July 31, 2025', completed: false },
-    { id: '5', title: 'Additional Deposit Due Date', date: 'Sunday August 10, 2025', completed: false },
-    { id: '6', title: 'Inspection Period End Date', date: 'Friday August 15, 2025', completed: false },
-    { id: '7', title: 'Buyer\'s Election Deadline', date: 'Wednesday August 20, 2025', completed: false },
-    { id: '8', title: 'Closing Date', date: 'Friday August 22, 2025', completed: false }
+  const [tasks, setTasks] = useState<Task[]>([
+    { id: '1', title: 'Association Application Deadline', dueDate: 'Saturday July 26, 2025', completed: false },
+    { id: '2', title: 'Effective Date', dueDate: 'Saturday July 26, 2025', completed: false },
+    { id: '3', title: 'Initial Deposit Due Date', dueDate: 'Tuesday July 29, 2025', completed: false },
+    { id: '4', title: 'Loan Application Deadline', dueDate: 'Thursday July 31, 2025', completed: false },
+    { id: '5', title: 'Additional Deposit Due Date', dueDate: 'Sunday August 10, 2025', completed: false },
+    { id: '6', title: 'Inspection Period End Date', dueDate: 'Friday August 15, 2025', completed: false },
+    { id: '7', title: 'Buyer\'s Election Deadline', dueDate: 'Wednesday August 20, 2025', completed: false },
+    { id: '8', title: 'Closing Date', dueDate: 'Friday August 22, 2025', completed: false }
   ]);
 
-  const [completedDeadlines, setCompletedDeadlines] = useState<Deadline[]>([
-    { id: 'c1', title: 'Association Application Deadline', date: 'Saturday July 26, 2025', completed: true },
-    { id: 'c2', title: 'Effective Date', date: 'Saturday July 26, 2025', completed: true }
+  const [completedTasks, setCompletedTasks] = useState<Task[]>([
+    { id: 'c1', title: 'Association Application Deadline', dueDate: 'Saturday July 26, 2025', completed: true },
+    { id: 'c2', title: 'Effective Date', dueDate: 'Saturday July 26, 2025', completed: true }
   ]);
 
-  const [showCompleted, setShowCompleted] = useState(true);
+  const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(false);
 
-  const toggleDeadlineCompletion = useCallback((id: string, fromCompleted = false) => {
+  const toggleTask = useCallback((id: string, fromCompleted: boolean) => {
     if (fromCompleted) {
-      const deadline = completedDeadlines.find(d => d.id === id);
-      if (deadline) {
-        setCompletedDeadlines(prev => prev.filter(d => d.id !== id));
-        setActiveDeadlines(prev => [...prev, { ...deadline, completed: false }]);
+      const task = completedTasks.find(t => t.id === id);
+      if (task) {
+        setCompletedTasks(prev => prev.filter(t => t.id !== id));
+        setTasks(prev => [...prev, { ...task, completed: false }]);
       }
     } else {
-      const deadline = activeDeadlines.find(d => d.id === id);
-      if (deadline) {
-        setActiveDeadlines(prev => prev.filter(d => d.id !== id));
-        setCompletedDeadlines(prev => [...prev, { ...deadline, completed: true }]);
+      const task = tasks.find(t => t.id === id);
+      if (task) {
+        setTasks(prev => prev.filter(t => t.id !== id));
+        setCompletedTasks(prev => [...prev, { ...task, completed: true }]);
       }
     }
-  }, [activeDeadlines, completedDeadlines]);
-
-  const DeadlineItem: React.FC<{ deadline: Deadline; isCompleted?: boolean }> = ({
-    deadline,
-    isCompleted = false
-  }) => (
-    <div className="flex  items-center justify-between px-4 py-3 hover:bg-gray-100 transition-colors">
-      <div className="flex items-center gap-3">
-        <div
-          className={`w-4 h-4 rounded border border-gray-600 flex items-center justify-center cursor-pointer transition-colors ${
-            isCompleted ? 'bg-blue-500 border-blue-500' : 'border-gray-300 hover:border-blue-400'
-          }`}
-          onClick={() => toggleDeadlineCompletion(deadline.id, isCompleted)}
-        >
-          {isCompleted && (
-            <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              />
-            </svg>
-          )}
-        </div>
-        <div className="flex flex-col">
-          <span className={`font-normal text-sm ${
-            isCompleted ? 'line-through text-gray-500' : 'text-gray-900'
-          }`}>
-            {deadline.title}
-          </span>
-          <span className="text-xs text-gray-500 mt-0.5">
-            {deadline.date}
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-1">
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600 hover:bg-gray-100">
-          <Calendar className="w-5 h-5" />
-        </Button>
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600 hover:bg-gray-100">
-          <Edit className="w-5 h-5" />
-        </Button>
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-400 hover:text-red-600 hover:bg-red-50">
-          <Trash2 className="w-5 h-5" />
-        </Button>
-      </div>
-    </div>
-  );
+  }, [tasks, completedTasks]);
 
   return (
-    <div className="bg-white w-full  mx-auto px-4">
-      <div className="w-full space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="text-lg font-medium text-gray-900">Deadlines</h1>
-            <span className="inline-flex items-center justify-center w-6 h-6 text-xs font-medium rounded-full text-white bg-blue-500 ">
-              {activeDeadlines.length}
+    <div className="bg-white w-full ">
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-medium text-gray-900 flex items-center">
+           Deadlines
+            <span className="ml-2 bg-blue-500 text-white text-xs font-medium px-2 py-1 rounded-full">
+              {tasks.length}
             </span>
-          </div>
-          <Button className="bg-black hover:bg-gray-800 text-white text-sm px-4 py-2 h-auto ">
-            <Plus className="w-5 h-5 mr-1" />
-            New
-          </Button>
+          </h2>
+        <DeadLineDialog/>
         </div>
 
-        {/* Active Deadlines */}
-        <div className="w-full bg-white  overflow-hidden">
-          <div className="divide-y divide-gray-100">
-            {activeDeadlines.map((deadline) => (
-              <div key={deadline.id} className="w-full border border-gray-200 my-2 rounded-md">
-                <DeadlineItem deadline={deadline} />
+        <div className="space-y-2">
+          {tasks.map((task) => (
+            <div key={task.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50">
+              <div className="flex items-center space-x-3">
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => toggleTask(task.id, false)}
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <div>
+                  <div className="text-sm font-medium text-gray-900">{task.title}</div>
+                  <div className="text-xs text-gray-500">{task.dueDate}</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button className="p-1 text-gray-400 hover:text-gray-600">
+                  <FileText className="w-4 h-4" />
+                </button>
+                <button className="p-1 text-gray-400 hover:text-gray-600">
+                  <Edit3 className="w-4 h-4" />
+                </button>
+                <button className="p-1 text-gray-400 hover:text-red-600">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Completed Tasks Section */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <button
+            onClick={() => setIsCompletedCollapsed(!isCompletedCollapsed)}
+            className="flex items-center text-lg font-medium text-gray-900 hover:text-gray-700"
+          >
+            {isCompletedCollapsed ? (
+              <ChevronRight className="w-5 h-5 mr-1" />
+            ) : (
+              <ChevronDown className="w-5 h-5 mr-1" />
+            )}
+            Completed Tasks
+            <span className="ml-2 bg-blue-500 text-white text-xs font-medium px-2 py-1 rounded-full">
+              {completedTasks.length}
+            </span>
+          </button>
+        </div>
+
+        {!isCompletedCollapsed && (
+          <div className="space-y-2">
+            {completedTasks.map((task) => (
+              <div key={task.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg bg-gray-100">
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => toggleTask(task.id, true)}
+                    className="w-4 h-4 text-blue-600 border-gray-300 rounded"
+                  />
+                  <div>
+                    <div className="text-sm font-medium text-gray-900 line-through">{task.title}</div>
+                    <div className="text-xs text-gray-500">{task.dueDate}</div>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button className="p-1 text-gray-400 hover:text-gray-600">
+                    <FileText className="w-4 h-4" />
+                  </button>
+                  <button className="p-1 text-gray-400 hover:text-gray-600">
+                    <Edit3 className="w-4 h-4" />
+                  </button>
+                  <button className="p-1 text-gray-400 hover:text-red-600">
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Completed Tasks Collapsible */}
-        <div className="w-full">
-          <button
-            className="w-full flex items-center justify-between px-2 py-2 rounded-md hover:bg-gray-50 transition"
-            onClick={() => setShowCompleted(!showCompleted)}
-          >
-            <div className="flex items-center gap-2">
-              {showCompleted ? (
-                <ChevronDown className="w-4 h-4 text-gray-700" />
-              ) : (
-                <ChevronRight className="w-4 h-4 text-gray-700" />
-              )}
-              <span className="text-base font-semibold text-gray-900">Completed Tasks</span>
-              <span className="ml-1 inline-flex items-center justify-center w-5 h-5 text-[11px] font-semibold text-white bg-blue-500 rounded-full">
-                {completedDeadlines.length}
-              </span>
-            </div>
-          </button>
-
-          {showCompleted && (
-            <div className="mt-2 w-full bg-gray-50 border border-gray-200 rounded-md overflow-hidden">
-              <div className="divide-y divide-gray-200">
-                {completedDeadlines.map((deadline) => (
-                  <div key={deadline.id} className="w-full">
-                    <DeadlineItem deadline={deadline} isCompleted />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        )}
       </div>
     </div>
   );

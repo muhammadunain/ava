@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Search, Plus, Users, Calculator, Building, ShoppingCart, Truck, FileText, MoreHorizontal, TableIcon, Grid3X3 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AddContactModal from "./dialog/ContactDialog";
 
 const contacts = [
   { name: "", email: "No email", phone: "No phone", type: "Other" },
@@ -138,10 +139,7 @@ export function ContactsSection() {
               className="pl-10 w-80"
             />
           </div>
-          <Button className="bg-primary hover:bg-primary/90">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Contact
-          </Button>
+        <AddContactModal/>
         </div>
       </div>
 

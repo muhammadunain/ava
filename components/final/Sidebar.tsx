@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import TransactionTypeDialog from '../dialogbox';
+import NotificationDropdown from '../dashboard/module/ui/Notify';
 
 export const TopNavbar = () => {
   return (
@@ -40,9 +41,7 @@ export const TopNavbar = () => {
         {/* Right Side */}
         <div className="flex items-center space-x-4">
           {/* Notifications */}
-          <button className="p-2 hover:bg-gray-100 rounded-lg">
-            <Bell size={18} className="text-gray-600" />
-          </button>
+          <NotificationDropdown/>
 
           {/* User Avatar */}
           <div className="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center">

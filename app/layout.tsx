@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AVA – Your Smart AI Assistant for Everything",
+  title: "AVA-AI Transaction Management Assistant for Real Estate",
   description:
     "Meet AVA, your intelligent AI assistant that helps you organize, manage, and get things done—faster and smarter. Built for productivity, powered by intelligence.",
 };

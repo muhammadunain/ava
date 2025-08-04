@@ -21,6 +21,7 @@ import {
 import Link from 'next/link';
 import TransactionTypeDialog from '../dialogbox';
 import NotificationDropdown from '../dashboard/module/ui/Notify';
+import TransactionModalComponent from './UploadPDF';
 
 export const TopNavbar = () => {
   return (
@@ -103,7 +104,8 @@ export const Sidebar = () => {
       {/* New Transaction Button */}
       {!isCollapsed && (
         <div className="p-4 flex-shrink-0">
-         <TransactionTypeDialog/>
+         {/* <TransactionTypeDialog/> */}
+         <TransactionModalComponent/>
         </div>
       )}
 

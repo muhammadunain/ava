@@ -1,29 +1,31 @@
-'use client'
-import { useEffect, useRef, useState } from 'react'
-import { MessageCircle, X, ThumbsUp, ThumbsDown, Copy, ArrowUp, Plus, Sparkles } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+"use client"
+
+import { useEffect, useRef, useState } from "react"
+import { MessageCircle, X, ThumbsUp, ThumbsDown, Copy, ArrowUp, Plus, Sparkles } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 type Message = {
-  role: 'user' | 'assistant'
+  role: "user" | "assistant"
   content: string
 }
 
 export default function FullScreenChatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
-      role: 'assistant',
-      content: "Hi Dave! 👋 How can I assist you today?\n\nI've finished setting up this transaction from the contract you just uploaded. Let me know what you'd like to tackle first!"
-    }
+      role: "assistant",
+      content:
+        "Hi Dave! 👋 How can I assist you today?\n\nI've finished setting up this transaction from the contract you just uploaded. Let me know what you'd like to tackle first!",
+    },
   ])
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [isChatOpen, setIsChatOpen] = useState(false)
   const controllerRef = useRef<AbortController | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
   useEffect(() => {
@@ -34,39 +36,50 @@ export default function FullScreenChatbot() {
     if (e) e.preventDefault()
     if (!input.trim()) return
 
-    const userMessage: Message = { role: 'user', content: input.trim() }
+    const userMessage: Message = { role: "user", content: input.trim() }
     const newMessages = [...messages, userMessage]
     setMessages(newMessages)
-    setInput('')
+    setInput("")
     setIsLoading(true)
 
     controllerRef.current = new AbortController()
 
     try {
-      // Simulate API call for demo
-      setTimeout(() => {
-        const responses = [
-          "I'll help you with that right away!",
-          "Let me process that information for you.",
-          "Here's what I found based on your request.",
-          "I've completed the analysis. Here are the details you requested."
-        ]
-        const randomResponse = responses[Math.floor(Math.random() * responses.length)]
-        setMessages([...newMessages, { role: 'assistant', content: randomResponse }])
-        setIsLoading(false)
-      }, 1500)
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        body: JSON.stringify({ messages: newMessages }),
+        headers: { "Content-Type": "application/json" },
+        signal: controllerRef.current.signal,
+      })
+
+      if (!res.ok || !res.body) throw new Error("Failed to connect to chat API")
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let assistantMessage: Message = { role: "assistant", content: "" }
+
+      setMessages((prev) => [...prev, assistantMessage])
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const chunk = decoder.decode(value, { stream: true })
+        assistantMessage.content += chunk
+        setMessages((prev) => {
+          const updated = [...prev]
+          updated[updated.length - 1] = { ...assistantMessage }
+          return updated
+        })
+      }
+
+      setIsLoading(false)
     } catch (err) {
-      console.error('Stream error:', err)
+      console.error("Stream error:", err)
       setIsLoading(false)
     }
   }
 
-  const quickActions = [
-    "Prepare next email",
-    "List missing documents", 
-    "Review key dates",
-    "Task summary"
-  ]
+  const quickActions = ["Prepare next email", "List missing documents", "Review key dates", "Task summary"]
 
   const handleQuickAction = (action: string) => {
     setInput(action)
@@ -74,7 +87,7 @@ export default function FullScreenChatbot() {
 
   return (
     <>
-      {/* Fixed Footer Button */}
+      {/* Floating Button */}
       {!isChatOpen && (
         <Button
           onClick={() => setIsChatOpen(true)}
@@ -85,7 +98,7 @@ export default function FullScreenChatbot() {
         </Button>
       )}
 
-      {/* Half Screen Chat Interface */}
+      {/* Chat Interface */}
       {isChatOpen && (
         <div className="fixed top-0 right-0 w-96 h-full z-50 bg-white flex flex-col shadow-2xl border-l border-gray-200">
           {/* Header */}
@@ -106,25 +119,20 @@ export default function FullScreenChatbot() {
             </button>
           </div>
 
-          {/* Messages Container */}
+          {/* Messages */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-gray-50">
             {messages.map((msg, i) => (
               <div key={i} className="space-y-3">
-                {msg.role === 'assistant' ? (
+                {msg.role === "assistant" ? (
                   <div className="flex gap-3">
                     <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                       <MessageCircle size={16} className="text-white" />
                     </div>
                     <div className="flex-1 max-w-[85%]">
-                      <div className="bg-white rounded-2xl rounded-tl-md p-4 text-sm text-gray-800 leading-relaxed shadow-sm border border-gray-100">
-                        {msg.content.split('\n').map((line, idx) => (
-                          <div key={idx} className={idx > 0 ? 'mt-3' : ''}>
-                            {line}
-                          </div>
-                        ))}
+                      <div className="bg-white rounded-2xl rounded-tl-md p-4 text-sm text-gray-800 leading-relaxed shadow-sm border border-gray-100 whitespace-pre-wrap">
+                        {msg.content}
                       </div>
-                      
-                      {/* Quick Actions - only show after first assistant message */}
+
                       {i === 0 && (
                         <div className="mt-4 grid grid-cols-2 gap-2">
                           {quickActions.map((action, idx) => (
@@ -138,8 +146,7 @@ export default function FullScreenChatbot() {
                           ))}
                         </div>
                       )}
-                      
-                      {/* Action buttons */}
+
                       <div className="flex gap-1 mt-3">
                         <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
                           <ThumbsUp size={16} className="text-gray-400" />
@@ -155,14 +162,14 @@ export default function FullScreenChatbot() {
                   </div>
                 ) : (
                   <div className="flex justify-end">
-                    <div className="bg-blue-600 text-white rounded-2xl rounded-tr-md p-4 text-sm max-w-[85%] shadow-sm">
+                    <div className="bg-blue-600 text-white rounded-2xl rounded-tr-md p-4 text-sm max-w-[85%] shadow-sm whitespace-pre-wrap">
                       {msg.content}
                     </div>
                   </div>
                 )}
               </div>
             ))}
-            
+
             {isLoading && (
               <div className="flex gap-3">
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
@@ -171,8 +178,14 @@ export default function FullScreenChatbot() {
                 <div className="bg-white rounded-2xl rounded-tl-md p-4 shadow-sm border border-gray-100">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.1s" }}
+                    ></div>
+                    <div
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.2s" }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -180,12 +193,12 @@ export default function FullScreenChatbot() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Footer with date */}
+          {/* Footer */}
           <div className="px-6 py-3 text-center bg-gray-50 border-t border-gray-100">
-            <span className="text-xs text-gray-400">July 31, 2025</span>
+            <span className="text-xs text-gray-400">{new Date().toDateString()}</span>
           </div>
 
-          {/* Input Area */}
+          {/* Input */}
           <div className="p-4 bg-white border-t border-gray-100">
             <div className="relative max-w-4xl mx-auto">
               <div className="flex items-center gap-2 bg-gray-50 rounded-full p-1 border border-gray-200">
@@ -198,8 +211,8 @@ export default function FullScreenChatbot() {
                 <Input
                   type="text"
                   value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && handleSubmit(e)}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubmit(e)}
                   className="flex-1 bg-transparent px-3 py-3 text-sm placeholder-gray-500 border-0 focus:ring-0 focus:outline-none"
                   placeholder="Ask, use / for commands, @ for mentions, # for references"
                   disabled={isLoading}
@@ -214,7 +227,9 @@ export default function FullScreenChatbot() {
               </div>
             </div>
             <div className="mt-3 text-center">
-              <span className="text-xs text-gray-400">Ava can make mistakes. Verify important information.</span>
+              <span className="text-xs text-gray-400">
+                Ava can make mistakes. Verify important information.
+              </span>
             </div>
           </div>
         </div>

@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 const steps = [
   "Identifying property details...",
-  "The property is located in New Jersey, USA...",
+  "Getting address details...",
   "Confirming type of property as Single-Family Home...",
   "Identifying key parties and representation...",
   "Buyer identified for further processing...",

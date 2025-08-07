@@ -41,7 +41,7 @@ const CustomAccordionItem: React.FC<CustomAccordionItemProps> = ({
       </div>
     </button>
     {isExpanded && (
-      <div className="px-6 pb-6 border-t border-gray-100">
+      <div className="px-6 pb-6 border-t border-gray-100 ">
         {children}
       </div>
     )}
@@ -58,12 +58,12 @@ export const AnalysisResults: React.FC<AnalysisResultsProps> = ({
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="space-y-4">
+    <div className=" mx-auto p-6 bg-gray-50 max-h-[80vh]   overflow-y-scroll  ">
+      <div className="space-y-4   ">
         
         {/* Document Tables */}
         {result.tables && result.tables.length > 0 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="bg-white rounded-lg  shadow-sm border border-gray-200">
             <div className="px-6 py-4 border-b border-gray-200 bg-blue-600">
               <h2 className="text-lg font-semibold text-white flex items-center gap-3">
              

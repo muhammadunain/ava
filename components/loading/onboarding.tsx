@@ -7,8 +7,8 @@ export const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({ children, pd
   return (
     <div className="fixed inset-0 bg-white z-50 flex">
       {/* Left Side - Dynamic Width */}
-      <div className={`${showPDF ? "w-1/2" : "w-full"} p-6 overflow-y-auto border-r border-gray-200`}>
-        <div className=" mx-auto">
+      <div className={`${showPDF ? "w-1/2" : "w-full"}  p-6 overflow-y-auto  custom-scrollbar border-r border-gray-200`}>
+        <div className=" mx-auto  ">
           {children}
         </div>
       </div>

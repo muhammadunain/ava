@@ -83,3 +83,23 @@ export interface OnboardingLayoutProps {
   fileMeta: FileMeta | null;
   currentStep?:any
 }
+
+
+export interface FormData {
+  name: string;
+  email: string;
+  company: string;
+  profession: string;
+  experience: string;
+  industry: string;
+  primaryGoal: string;
+  targetAudience: string;
+  contentTypes: string[];
+  colorPreference: string;
+  stylePreference: string;
+  inspirations: string;
+  budget: string;
+  timeline: string;
+  features: string[];
+  additionalInfo: string;
+}

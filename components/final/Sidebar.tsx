@@ -16,7 +16,15 @@ import {
   Bell,
   PanelRightOpen,
   PanelRightOpenIcon,
-  Funnel
+  Funnel,
+  GitBranch,
+  FileText,
+  BarChart3,
+  BookOpen,
+  Activity,
+  List,
+  Settings,
+  LogOut
 } from 'lucide-react';
 import Link from 'next/link';
 import TransactionTypeDialog from '../dialogbox';
@@ -111,46 +119,75 @@ export const Sidebar = () => {
 
       {/* Navigation - Scrollable Area */}
       <div className="flex-1 px-2 overflow-y-auto">
-        {/* Dashboard */}
-        <div className="mb-6">
-            <Link href={'/'}>
-          <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-            activeSection === 'dashboard' ? 'bg-gray-50' : ''
-          }`}
-          onClick={() => setActiveSection('dashboard')}>
-            <div className="flex items-center space-x-3">
-              <LayoutDashboard size={18} className="text-gray-600" />
-              {!isCollapsed && <span className="text-sm font-medium">Dashboard</span>}
+        
+        {/* OVERVIEW Section */}
+        {!isCollapsed && (
+          <div className="mb-4">
+            <div className="px-2 mb-2">
+              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                OVERVIEW
+              </span>
             </div>
-            {!isCollapsed && <ChevronDown size={16} className="text-gray-400" />}
+
+            {/* Dashboard */}
+            <Link href={'/'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'dashboard' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('dashboard')}>
+                <div className="flex items-center space-x-3">
+                  <LayoutDashboard size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Dashboard</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Pipeline */}
+            <Link href={'/pipeline'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'pipeline' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('pipeline')}>
+                <div className="flex items-center space-x-3">
+                  <GitBranch size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Pipeline</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Transactions */}
+            <Link href={'/transactions'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'transactions' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('transactions')}>
+                <div className="flex items-center space-x-3">
+                  <FileText size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Transactions</span>
+                </div>
+              </div>
+            </Link>
           </div>
-          </Link>
-        </div>
+        )}
 
         {/* Transactions Section */}
         {!isCollapsed && (
           <div className="mb-4">
-            <div className="flex items-center justify-between px-2 mb-2">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                TRANSACTIONS
-              </span>
-              <div className="w-4 h-4 text-blue-500 rounded flex items-center justify-center">
-              <Funnel/>
-              </div>
-            </div>
-
+            
             {/* Intakes */}
             <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
               activeSection === 'intakes' ? 'bg-gray-50' : ''
             }`}
             onClick={() => setActiveSection('intakes')}>
               <div className="flex items-center space-x-3">
-                <ArrowUpCircle size={18} className="text-gray-600" />
+                <div className="ml-6">
+                  <ArrowUpCircle size={18} className="text-gray-600" />
+                </div>
                 <span className="text-sm font-medium">Intakes</span>
               </div>
               <div className="flex items-center space-x-2">
                 <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  3
+                  1
                 </span>
                 <ChevronRight size={16} className="text-gray-400" />
               </div>
@@ -166,7 +203,9 @@ export const Sidebar = () => {
                 toggleSection('active');
               }}>
                 <div className="flex items-center space-x-3">
-                  <CheckCircle size={18} className="text-gray-600" />
+                  <div className="ml-6">
+                    <CheckCircle size={18} className="text-gray-600" />
+                  </div>
                   <span className="text-sm font-medium">Active</span>
                 </div>
                 {expandedSections.active ? 
@@ -176,17 +215,17 @@ export const Sidebar = () => {
               </div>
               
               {expandedSections.active && (
-                <div className="ml-9 mt-1 space-y-1">
+                <div className="ml-12 mt-1 space-y-1">
                   <Link href={'/transactions'}>
-                  <div className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-                    410 FL ACSSP (PI 950)
-                  </div>
-                    </Link>
-                     <Link href={'/transactions'}>
-                  <div className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-                    410 FL ACSSP (PI 950)
-                  </div>
-                     </Link>
+                    <div className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
+                      410 FL ACSSP (PI 950)
+                    </div>
+                  </Link>
+                  <Link href={'/transactions'}>
+                    <div className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
+                      410 FL ACSSP (PI 950)
+                    </div>
+                  </Link>
                 </div>
               )}
             </div>
@@ -197,7 +236,9 @@ export const Sidebar = () => {
             }`}
             onClick={() => setActiveSection('closed')}>
               <div className="flex items-center space-x-3">
-                <XCircle size={18} className="text-gray-600" />
+                <div className="ml-6">
+                  <XCircle size={18} className="text-gray-600" />
+                </div>
                 <span className="text-sm font-medium">Closed</span>
               </div>
               <ChevronRight size={16} className="text-gray-400" />
@@ -209,35 +250,152 @@ export const Sidebar = () => {
             }`}
             onClick={() => setActiveSection('void')}>
               <div className="flex items-center space-x-3">
-                <Trash2 size={18} className="text-gray-600" />
+                <div className="ml-6">
+                  <Trash2 size={18} className="text-gray-600" />
+                </div>
                 <span className="text-sm font-medium">Void</span>
               </div>
               <ChevronRight size={16} className="text-gray-400" />
             </div>
-          </div>
-        )}
-
-        {/* More Section */}
-        {!isCollapsed && (
-          <div>
-            <div className="px-2 mb-2">
-              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                MORE
-              </span>
-            </div>
 
             {/* Contacts */}
             <Link href={'/contact'}>
-            <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-              activeSection === 'contacts' ? 'bg-gray-50' : ''
-            }`}
-            onClick={() => setActiveSection('contacts')}>
-              <div className="flex items-center space-x-3">
-                <Users size={18} className="text-gray-600" />
-                <span className="text-sm font-medium">Contacts</span>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'contacts' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('contacts')}>
+                <div className="flex items-center space-x-3">
+                  <Users size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Contacts</span>
+                </div>
+                <ChevronRight size={16} className="text-gray-400" />
               </div>
-              <ChevronRight size={16} className="text-gray-400" />
+            </Link>
+
+            {/* Reports */}
+            <Link href={'/reports'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'reports' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('reports')}>
+                <div className="flex items-center space-x-3">
+                  <BarChart3 size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Reports</span>
+                </div>
+                <ChevronRight size={16} className="text-gray-400" />
+              </div>
+            </Link>
+
+            {/* Library */}
+            <Link href={'/library'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'library' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('library')}>
+                <div className="flex items-center space-x-3">
+                  <BookOpen size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Library</span>
+                </div>
+                <ChevronRight size={16} className="text-gray-400" />
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* TO DO Section */}
+        {!isCollapsed && (
+          <div className="mb-4">
+            <div className="px-2 mb-2">
+              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                TO DO
+              </span>
             </div>
+
+            {/* Activity */}
+            <Link href={'/activity'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'activity' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('activity')}>
+                <div className="flex items-center space-x-3">
+                  <Activity size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Activity</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* SETTINGS Section */}
+        {!isCollapsed && (
+          <div className="mb-4">
+            <div className="px-2 mb-2">
+              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                SETTINGS
+              </span>
+            </div>
+
+            {/* Checklists */}
+            <Link href={'/checklists'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'checklists' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('checklists')}>
+                <div className="flex items-center space-x-3">
+                  <List size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Checklists</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}
+
+        {/* USER Section */}
+        {!isCollapsed && (
+          <div className="mb-4">
+            <div className="px-2 mb-2">
+              <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                USER
+              </span>
+            </div>
+
+            {/* Notifications */}
+            <Link href={'/notifications'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'notifications' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('notifications')}>
+                <div className="flex items-center space-x-3">
+                  <Bell size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Notifications</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Add-ons */}
+            <Link href={'/add-ons'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'add-ons' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('add-ons')}>
+                <div className="flex items-center space-x-3">
+                  <Settings size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Add-ons</span>
+                </div>
+              </div>
+            </Link>
+
+            {/* Sign out */}
+            <Link href={'/signout'}>
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
+                activeSection === 'signout' ? 'bg-gray-50' : ''
+              }`}
+              onClick={() => setActiveSection('signout')}>
+                <div className="flex items-center space-x-3">
+                  <LogOut size={18} className="text-gray-600" />
+                  <span className="text-sm font-medium">Sign out</span>
+                </div>
+              </div>
             </Link>
           </div>
         )}
@@ -248,10 +406,16 @@ export const Sidebar = () => {
             <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
               <LayoutDashboard size={18} className="text-gray-600" />
             </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <GitBranch size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <FileText size={18} className="text-gray-600" />
+            </div>
             <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer relative">
               <ArrowUpCircle size={18} className="text-gray-600" />
               <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                3
+                1
               </span>
             </div>
             <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
@@ -265,6 +429,27 @@ export const Sidebar = () => {
             </div>
             <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
               <Users size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <BarChart3 size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <BookOpen size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <Activity size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <List size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <Bell size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <Settings size={18} className="text-gray-600" />
+            </div>
+            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+              <LogOut size={18} className="text-gray-600" />
             </div>
           </div>
         )}

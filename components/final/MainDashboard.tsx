@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import DashboardStats from "../DashboardStacs";
 import Checksome from "./ChecksomeOnce";
+import TransactionsDashboard from "../dashboard/module/ui/FinalDashboard";
 
 interface Task {
 	id: string;
@@ -202,7 +203,8 @@ export default function MainDashboard() {
 		<div className="min-h-screen  p-6">
 			<div className=" mx-auto">
 				{/* Header */}
-				<DashboardStats />
+				{/* <DashboardStats /> */}
+				<TransactionsDashboard/>
 
 				{/* Stats Cards */}
 
@@ -336,11 +338,10 @@ export default function MainDashboard() {
 						</CardContent>
 					</Card>
 				</div> */}
-				<Checksome/>
+				{/* <Checksome/> */}
 
 				{/* Upcoming Closings */}
-				<div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-					{/* Header */}
+				{/* <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
 					<div className="flex items-center justify-between mb-6">
 						<div className="text-lg font-semibold flex items-center text-gray-800">
 							<CheckCircle2 className="h-5 w-5 text-blue-500 mr-3" />
@@ -349,9 +350,7 @@ export default function MainDashboard() {
 						<Filter className="h-4 w-4 text-blue-500" />
 					</div>
 
-					{/* Closings List */}
 					<div className="space-y-6">
-						{/* First Closing */}
 						<div className="space-y-3">
 							<div className="flex items-start justify-between">
 								<h4 className="text-base font-semibold text-gray-900">
@@ -382,7 +381,6 @@ export default function MainDashboard() {
 							</div>
 						</div>
 
-						{/* Second Closing */}
 						<div className="space-y-3">
 							<div className="flex items-start justify-between">
 								<h4 className="text-base font-semibold text-gray-900">
@@ -413,7 +411,7 @@ export default function MainDashboard() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

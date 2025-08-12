@@ -152,6 +152,7 @@ const TransactionsDashboard: React.FC = () => {
         </div>
 
         {/* Desktop */}
+        {/* Desktop */}
         <div className="hidden lg:block ">
           {/* Header */}
           <div className="py-3 border-b border-border">

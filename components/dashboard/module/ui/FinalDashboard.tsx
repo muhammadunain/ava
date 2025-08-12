@@ -100,7 +100,7 @@ const TransactionsDashboard: React.FC = () => {
               <button
                 key={filter.name}
                 onClick={() => setActiveFilter(filter.name)}
-                className={`py-2 px-1 sm:px-2 flex items-center justify-center gap-1 rounded-sm text-xs sm:text-sm font-medium transition-colors ${
+                className={`py-2 px-1 sm:px-2 flex items-center cursor-pointer justify-center gap-1 rounded-sm text-xs sm:text-sm font-medium transition-colors ${
                   isActive
                     ? "bg-card text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
@@ -126,7 +126,7 @@ const TransactionsDashboard: React.FC = () => {
           </div>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="ghost" className="text-blue-500 hover:to-blue-600" size="icon">
+              <Button variant="ghost" className="text-blue-500 hover:to-blue-600 cursor-pointer" size="icon">
                 <SlidersHorizontal className="h-5 w-5" />
               </Button>
             </PopoverTrigger>
@@ -151,7 +151,6 @@ const TransactionsDashboard: React.FC = () => {
           </Popover>
         </div>
 
-        {/* Desktop */}
         {/* Desktop */}
         <div className="hidden lg:block ">
           {/* Header */}

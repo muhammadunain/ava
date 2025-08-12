@@ -162,12 +162,7 @@ You can make any edits before we finalize your life.
 
         <DialogContent className="max-w-lg mx-auto bg-white rounded-xl shadow-xl border-0 p-0 overflow-hidden">
           {/* Close button */}
-          <button
-            onClick={() => setIsOpen(false)}
-            className="absolute top-4 right-4 z-10 text-gray-400 hover:text-gray-600"
-          >
-            <X className="w-5 h-5" />
-          </button>
+         
 
           {showOptions && (
             <>

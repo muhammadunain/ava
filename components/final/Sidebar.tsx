@@ -164,6 +164,11 @@ export const Sidebar = () => {
                 <div className="flex items-center space-x-3">
                   <FileText size={18} className="text-gray-600" />
                   <span className="text-sm font-medium">Transactions</span>
+                 <div className="flex justify-start items-start space-x-2">
+                <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  23
+                </span>
+              </div>
                 </div>
               </div>
             </Link>
@@ -184,13 +189,13 @@ export const Sidebar = () => {
                   <ArrowUpCircle size={18} className="text-gray-600" />
                 </div>
                 <span className="text-sm font-medium">Intakes</span>
-              </div>
-              <div className="flex items-center space-x-2">
+              <div className="flex justify-start items-start space-x-2">
                 <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  1
+               4
                 </span>
-                <ChevronRight size={16} className="text-gray-400" />
               </div>
+              </div>
+                <ChevronRight size={16} className="text-gray-400" />
             </div>
 
             {/* Active */}
@@ -202,19 +207,22 @@ export const Sidebar = () => {
                 setActiveSection('active');
                 toggleSection('active');
               }}>
+                      <Link href={'/transactions'}>
                 <div className="flex items-center space-x-3">
                   <div className="ml-6">
                     <CheckCircle size={18} className="text-gray-600" />
                   </div>
                   <span className="text-sm font-medium">Active</span>
                 </div>
-                {expandedSections.active ? 
+                      </Link>
+                <ChevronRight size={16} className="text-gray-400" /> 
+                {/* {expandedSections.active ? 
                   <ChevronDown size={16} className="text-gray-400" /> : 
                   <ChevronRight size={16} className="text-gray-400" />
-                }
+                } */}
               </div>
               
-              {expandedSections.active && (
+              {/* {expandedSections.active && (
                 <div className="ml-12 mt-1 space-y-1">
                   <Link href={'/transactions'}>
                     <div className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
@@ -227,7 +235,7 @@ export const Sidebar = () => {
                     </div>
                   </Link>
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* Closed */}

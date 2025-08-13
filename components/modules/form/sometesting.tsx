@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { BotIcon, ChevronDown, ChevronRight, Search } from 'lucide-react';
+import { BotIcon, ChevronDown, ChevronRight, Newspaper, Paperclip, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import ContactsInput from './ContactField';
 import SignersAndOtherParties from './AddSigners';
+import AgentsCommissions from '@/components/final/commision';
 
 interface MLSData {
   id: string;
@@ -154,14 +155,14 @@ const MultiStepTransactionForm = () => {
   const renderStepIndicator = () => {
     const steps = [
       { number: 1, title: 'Transaction name', active: currentStep === 1 },
-      { number: 2, title: 'Transaction Form', active: currentStep === 2 },
-      { number: 3, title: 'Add Forms', active: currentStep === 3 },
-      { number: 4, title: 'Add Contacts', active: currentStep === 4 },
+      { number: 2, title: 'Agents & Commissions', active: currentStep === 2 },
+      { number: 3, title: 'Transaction Form', active: currentStep === 3 },
+      { number: 4, title: 'Add Forms', active: currentStep === 4 },
       { number: 5, title: 'Add Signers', active: currentStep === 5 }
     ];
 
     return (
-      <div className="flex items-center justify-center mb-8">
+      <div className="flex items-center justify-center mb-16">
         {steps.map((step, index) => (
           <div key={step.number} className="flex items-center">
             <div className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium ${
@@ -246,6 +247,27 @@ const MultiStepTransactionForm = () => {
 
  const renderStep2 = () => (
   <div className="max-w-4xl mx-auto">
+   <AgentsCommissions/>
+
+    {/* Footer actions */}
+    <div className="flex justify-between items-center mt-8">
+      <div className="text-sm text-gray-500">step 1 of 4</div>
+
+      <div className="flex space-x-3">
+        <Button className='cursor-pointer' variant="outline" onClick={handleBack}>
+          Back
+        </Button>
+
+        <Button onClick={handleNext} className="bg-black cursor-pointer text-white hover:bg-gray-800">
+          Next
+        </Button>
+      </div>
+    </div>
+  </div>
+);
+
+  const renderStep3 = () => (
+     <div className="max-w-4xl mx-auto">
     <div className="mb-8">
       <h2 className="text-2xl font-semibold mb-2">Create New Transaction</h2>
       <p className="text-gray-500">How would you like to enter data in your document?</p>
@@ -257,10 +279,10 @@ const MultiStepTransactionForm = () => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Representing</label>
           <Select value={formData.representing} onValueChange={(value) => updateFormData('representing', value)}>
-            <SelectTrigger className="h-12 w-full cursor-pointer">
+            <SelectTrigger  className="h-12 w-full cursor-pointer">
               <SelectValue placeholder="select" />
-            </SelectTrigger>
-            <SelectContent>
+            </SelectTrigger >
+            <SelectContent >
               <SelectItem value="buyer">Buyer</SelectItem>
               <SelectItem value="seller">Seller</SelectItem>
               <SelectItem value="both">Both</SelectItem>
@@ -793,10 +815,10 @@ const MultiStepTransactionForm = () => {
       </div>
     </div>
   </div>
-);
+  );
 
-  const renderStep3 = () => (
-    <div className="max-w-2xl mx-auto">
+  const renderStep4 = () => (
+     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-2">Forms</h2>
         <p className="text-gray-500 flex items-center">
@@ -811,9 +833,8 @@ const MultiStepTransactionForm = () => {
         {availableForms.map((form) => (
           <div key={form.id} className="flex items-center space-x-3 p-3 bg-gray-100 hover:bg-gray-50 rounded-lg">
             <input
-              type="radio"
+              type="checkbox"
               name="selectedForm"
-              checked={form.selected}
               onChange={() => handleFormToggle(form.id)}
               className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
             />
@@ -822,6 +843,14 @@ const MultiStepTransactionForm = () => {
             </label>
           </div>
         ))}
+          <div className="mt-8 bg-gray-100  border-2 border-dashed border-gray-200  rounded-md h-28 flex flex-col items-center justify-center text-center">
+      <Newspaper className="w-6 h-6 text-gray-400 mb-1" />
+      <div className="text-sm text-gray-500">
+        <button className="text-blue-600 underline">Add more forms</button>
+        <span className="mx-5">or</span>
+        <button className="text-gray-600 underline">attach a document</button>
+      </div>
+    </div>
       </div>
 
       <div className="flex justify-between items-center mt-12">
@@ -833,28 +862,6 @@ const MultiStepTransactionForm = () => {
             Back
           </Button>
           <Button onClick={handleNext} className="bg-black cursor-pointer text-white hover:bg-gray-800">
-            Next
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderStep4 = () => (
-    <div className="max-w-3xl mx-auto">
-     
-
-    <ContactsInput/>
-
-      <div className="flex justify-between items-center mt-12">
-        <div className="text-sm text-gray-500">
-          step 4 of 5
-        </div>
-        <div className="flex space-x-3">
-          <Button className='cursor-pointer' variant="outline" onClick={handleBack}>
-            Back
-          </Button>
-          <Button onClick={handleNext} className="bg-black text-white cursor-pointer hover:bg-gray-800">
             Next
           </Button>
         </div>

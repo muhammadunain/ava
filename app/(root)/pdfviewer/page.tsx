@@ -19,6 +19,8 @@ import {
   Upload,
   X
 } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const PDFViewerEditor = () => {
   const [selectedTool, setSelectedTool] = useState('');
@@ -37,6 +39,7 @@ const PDFViewerEditor = () => {
   const [draggedElement, setDraggedElement] = useState<string | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter()
 
   const tools = [
     { id: 'text', icon: Type, label: 'Text' },
@@ -145,7 +148,8 @@ const PDFViewerEditor = () => {
     setShowSaveMenu(false);
     switch(action) {
       case 'esign':
-        alert('Sending for eSign...');
+        toast.success('Sending for E-sign')
+      router.push('/')
         break;
       case 'download':
         alert('Downloading document...');

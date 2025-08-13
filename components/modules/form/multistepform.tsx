@@ -182,7 +182,7 @@ const OnboardingForm = () => {
                 }}
                 whileTap={{ scale: 0.95 }}
               /> */}
-              {/* <motion.span
+              <motion.span
                 className={cn(
                   "text-xs mt-1.5 hidden sm:block",
                   index === currentStep
@@ -191,7 +191,7 @@ const OnboardingForm = () => {
                 )}
               >
                 {step.title}
-              </motion.span> */}
+              </motion.span>
             </motion.div>
           ))}
         </div>

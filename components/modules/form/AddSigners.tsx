@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useRef } from 'react';
 import { Plus, X, ChevronDown, GripVertical } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 interface Party {
   id: string;
@@ -173,7 +174,7 @@ export default function SignersAndOtherParties() {
               onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, party.id)}
               className={`
-                relative bg-gray-50 border rounded-lg transition-all duration-200
+                relative  border rounded-lg transition-all duration-200
                 ${assignSignerOrder ? 'cursor-move' : ''}
                 ${draggedItem === party.id ? 'opacity-50 scale-95' : ''}
                 ${draggedOver === party.id && draggedItem !== party.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200'}
@@ -199,7 +200,7 @@ export default function SignersAndOtherParties() {
                 
                 <div className="flex items-center gap-2">
                   {/* Dropdown for role selection */}
-                  {party.type === 'dropdown' && (
+                  {/* {party.type === 'dropdown' && (
                     <div className="relative">
                       <button
                         onClick={() => toggleDropdown(party.id)}
@@ -223,7 +224,7 @@ export default function SignersAndOtherParties() {
                         </div>
                       )}
                     </div>
-                  )}
+                  )} */}
                   
                   {/* Remove button for removable items */}
                   {party.type === 'removable' && (
@@ -243,7 +244,7 @@ export default function SignersAndOtherParties() {
         {/* Assign Signer Order Checkbox */}
         <div className="flex items-center justify-between mb-4">
           <label className="flex items-center gap-3 cursor-pointer">
-            <input
+            <Input
               type="checkbox"
               checked={assignSignerOrder}
               onChange={(e) => setAssignSignerOrder(e.target.checked)}
@@ -255,7 +256,7 @@ export default function SignersAndOtherParties() {
           <div className="relative">
             <button
               onClick={handleAddSigner}
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              className="flex items-center gap-2 cursor-pointer text-blue-600 hover:text-blue-700 font-medium transition-colors"
             >
               <Plus className="w-4 h-4" />
               Add signer
@@ -269,7 +270,7 @@ export default function SignersAndOtherParties() {
                     <h3 className="text-sm font-medium text-gray-700">add parties name</h3>
                     <button
                       onClick={() => setShowAddSignerModal(false)}
-                      className="text-gray-400 hover:text-gray-600"
+                      className="text-gray-400 cursor-pointer hover:text-gray-600"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -281,7 +282,7 @@ export default function SignersAndOtherParties() {
                       <button
                         key={contact.id}
                         onClick={() => handleSelectContact(contact)}
-                        className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 rounded text-left"
+                        className="w-full flex items-center cursor-pointer justify-between px-3 py-2 hover:bg-gray-50 rounded text-left"
                       >
                         <span className="font-medium text-gray-900">{contact.name}</span>
                         <span className="text-gray-500 text-sm">- {contact.role}</span>
@@ -290,7 +291,7 @@ export default function SignersAndOtherParties() {
                     
                     {/* Search Input */}
                     <div className="pt-2 border-t border-gray-100">
-                      <input
+                      <Input
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -305,7 +306,7 @@ export default function SignersAndOtherParties() {
                             <button
                               key={contact.id}
                               onClick={() => handleSelectContact(contact)}
-                              className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 rounded text-left"
+                              className="w-full cursor-pointer flex items-center justify-between px-3 py-2 hover:bg-gray-50 rounded text-left"
                             >
                               <span className="font-medium text-gray-900">{contact.name}</span>
                               <span className="text-gray-500 text-sm">- {contact.role}</span>
@@ -324,14 +325,14 @@ export default function SignersAndOtherParties() {
                           <button
                             key={contact.id}
                             onClick={() => handleSelectContact(contact)}
-                            className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 rounded text-left"
+                            className="w-full flex cursor-pointer items-center justify-between px-3 py-2 hover:bg-gray-50 rounded text-left"
                           >
                             <span className="font-medium text-gray-900">{contact.name}</span>
                             <span className="text-gray-500 text-sm">- {contact.role}</span>
                           </button>
                         ))}
                         
-                        <input
+                        <Input
                           type="text"
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
@@ -347,12 +348,7 @@ export default function SignersAndOtherParties() {
           </div>
         </div>
         
-        {/* Helper text when drag is enabled */}
-        {assignSignerOrder && (
-          <p className="text-sm text-gray-500 mt-2">
-            💡 Drag and drop the items above to reorder the signing sequence
-          </p>
-        )}
+       
       </div>
     </div>
   );

@@ -64,7 +64,7 @@ export const TopNavbar = () => {
 
 export const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [activeSection, setActiveSection] = useState('intakes');
+  const [activeSection, setActiveSection] = useState('dashboard');
   const [expandedSections, setExpandedSections] = useState({
     transactions: true,
     active: true
@@ -76,6 +76,11 @@ export const Sidebar = () => {
       // @ts-ignore
       [section]: !prev[section]
     }));
+  };
+
+  // Helper function to check if it's a transaction sub-item
+  const isTransactionSubItem = (section: string) => {
+    return ['opportunities', 'active', 'closed', 'pending'].includes(section);
   };
 
   return (
@@ -132,7 +137,7 @@ export const Sidebar = () => {
             {/* Dashboard */}
             <Link href={'/'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'dashboard' ? 'bg-gray-50' : ''
+                activeSection === 'dashboard' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('dashboard')}>
                 <div className="flex items-center space-x-3">
@@ -145,7 +150,7 @@ export const Sidebar = () => {
             {/* Pipeline */}
             <Link href={'/pipeline'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'pipeline' ? 'bg-gray-50' : ''
+                activeSection === 'pipeline' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('pipeline')}>
                 <div className="flex items-center space-x-3">
@@ -158,7 +163,7 @@ export const Sidebar = () => {
             {/* Transactions */}
             <Link href={'/transactions'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'transactions' ? 'bg-gray-50' : ''
+                activeSection === 'transactions' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('transactions')}>
                 <div className="flex items-center space-x-3">
@@ -172,139 +177,90 @@ export const Sidebar = () => {
                 </div>
               </div>
             </Link>
-          </div>
-        )}
 
-        {/* Transactions Section */}
-        {!isCollapsed && (
-          <div className="mb-4">
-            
-            {/* Intakes */}
-            <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-              activeSection === 'intakes' ? 'bg-gray-50' : ''
-            }`}
-            onClick={() => setActiveSection('intakes')}>
-              <div className="flex items-center space-x-3">
-                <div className="ml-6">
-                  <ArrowUpCircle size={18} className="text-gray-600" />
-                </div>
-                <span className="text-sm font-medium">Intakes</span>
-              <div className="flex justify-start items-start space-x-2">
-                <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-               4
-                </span>
-              </div>
-              </div>
-                <ChevronRight size={16} className="text-gray-400" />
-            </div>
-
-            {/* Active */}
-            <div className="mb-2">
-              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'active' ? 'bg-gray-50' : ''
-              }`}
-              onClick={() => {
-                setActiveSection('active');
-                toggleSection('active');
-              }}>
-                      <Link href={'/transactions'}>
-                <div className="flex items-center space-x-3">
-                  <div className="ml-6">
-                    <CheckCircle size={18} className="text-gray-600" />
+            {/* Transaction Sub-items - directly under Transactions */}
+            <div className="ml-4 space-y-1 mt-3">
+              {/* Opportunities */}
+              <Link href='/opportunites'>
+                <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
+                onClick={() => setActiveSection('opportunities')}>
+                  <div className="flex items-center space-x-3">
+                    <span className={`text-sm ${activeSection === 'opportunities' ? 'text-blue-500' : 'text-gray-600'}`}>Opportunities</span>
                   </div>
-                  <span className="text-sm font-medium">Active</span>
-                </div>
-                      </Link>
-                <ChevronRight size={16} className="text-gray-400" /> 
-                {/* {expandedSections.active ? 
-                  <ChevronDown size={16} className="text-gray-400" /> : 
                   <ChevronRight size={16} className="text-gray-400" />
-                } */}
-              </div>
-              
-              {/* {expandedSections.active && (
-                <div className="ml-12 mt-1 space-y-1">
-                  <Link href={'/transactions'}>
-                    <div className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-                      410 FL ACSSP (PI 950)
-                    </div>
-                  </Link>
-                  <Link href={'/transactions'}>
-                    <div className="px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded cursor-pointer">
-                      410 FL ACSSP (PI 950)
-                    </div>
-                  </Link>
                 </div>
-              )} */}
-            </div>
+              </Link>
 
-            {/* Closed */}
-            <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-              activeSection === 'closed' ? 'bg-gray-50' : ''
-            }`}
-            onClick={() => setActiveSection('closed')}>
-              <div className="flex items-center space-x-3">
-                <div className="ml-6">
-                  <XCircle size={18} className="text-gray-600" />
+              {/* Active */}
+              <Link href={'/transactions'}>
+                <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
+                onClick={() => setActiveSection('active')}>
+                  <div className="flex items-center space-x-3">
+                    <span className={`text-sm ${activeSection === 'active' ? 'text-blue-500' : 'text-gray-600'}`}>Active</span>
+                  </div>
+                  <ChevronRight size={16} className="text-gray-400" />
                 </div>
-                <span className="text-sm font-medium">Closed</span>
-              </div>
-              <ChevronRight size={16} className="text-gray-400" />
-            </div>
+              </Link>
 
-            {/* Void */}
-            <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-              activeSection === 'void' ? 'bg-gray-50' : ''
-            }`}
-            onClick={() => setActiveSection('void')}>
-              <div className="flex items-center space-x-3">
-                <div className="ml-6">
-                  <Trash2 size={18} className="text-gray-600" />
+              {/* Closed */}
+              <Link href={'/closed'}>
+                <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
+                onClick={() => setActiveSection('closed')}>
+                  <div className="flex items-center space-x-3">
+                    <span className={`text-sm ${activeSection === 'closed' ? 'text-blue-500' : 'text-gray-600'}`}>Closed</span>
+                  </div>
+                  <ChevronRight size={16} className="text-gray-400" />
                 </div>
-                <span className="text-sm font-medium">Void</span>
-              </div>
-              <ChevronRight size={16} className="text-gray-400" />
+              </Link>
+
+              {/* Pending */}
+              <Link href={'/pending'}>
+                <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
+                onClick={() => setActiveSection('pending')}>
+                  <div className="flex items-center space-x-3">
+                    <span className={`text-sm ${activeSection === 'pending' ? 'text-blue-500' : 'text-gray-600'}`}>Pending</span>
+                  </div>
+                  <ChevronRight size={16} className="text-gray-400" />
+                </div>
+              </Link>
             </div>
 
             {/* Contacts */}
             <Link href={'/contact'}>
-              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'contacts' ? 'bg-gray-50' : ''
+              <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer mt-2 ${
+                activeSection === 'contacts' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('contacts')}>
                 <div className="flex items-center space-x-3">
                   <Users size={18} className="text-gray-600" />
                   <span className="text-sm font-medium">Contacts</span>
                 </div>
-                <ChevronRight size={16} className="text-gray-400" />
               </div>
             </Link>
 
             {/* Reports */}
             <Link href={'/reports'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'reports' ? 'bg-gray-50' : ''
+                activeSection === 'reports' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('reports')}>
                 <div className="flex items-center space-x-3">
                   <BarChart3 size={18} className="text-gray-600" />
                   <span className="text-sm font-medium">Reports</span>
                 </div>
-                <ChevronRight size={16} className="text-gray-400" />
               </div>
             </Link>
 
             {/* Library */}
             <Link href={'/library'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'library' ? 'bg-gray-50' : ''
+                activeSection === 'library' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('library')}>
                 <div className="flex items-center space-x-3">
                   <BookOpen size={18} className="text-gray-600" />
                   <span className="text-sm font-medium">Library</span>
                 </div>
-                <ChevronRight size={16} className="text-gray-400" />
               </div>
             </Link>
           </div>
@@ -322,7 +278,7 @@ export const Sidebar = () => {
             {/* Activity */}
             <Link href={'/activity'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'activity' ? 'bg-gray-50' : ''
+                activeSection === 'activity' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('activity')}>
                 <div className="flex items-center space-x-3">
@@ -346,7 +302,7 @@ export const Sidebar = () => {
             {/* Checklists */}
             <Link href={'/checklists'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'checklists' ? 'bg-gray-50' : ''
+                activeSection === 'checklists' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('checklists')}>
                 <div className="flex items-center space-x-3">
@@ -370,7 +326,7 @@ export const Sidebar = () => {
             {/* Notifications */}
             <Link href={'/notifications'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'notifications' ? 'bg-gray-50' : ''
+                activeSection === 'notifications' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('notifications')}>
                 <div className="flex items-center space-x-3">
@@ -383,7 +339,7 @@ export const Sidebar = () => {
             {/* Add-ons */}
             <Link href={'/add-ons'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'add-ons' ? 'bg-gray-50' : ''
+                activeSection === 'add-ons' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('add-ons')}>
                 <div className="flex items-center space-x-3">
@@ -396,7 +352,7 @@ export const Sidebar = () => {
             {/* Sign out */}
             <Link href={'/signout'}>
               <div className={`flex items-center justify-between px-2 py-2 hover:bg-gray-50 rounded-lg cursor-pointer ${
-                activeSection === 'signout' ? 'bg-gray-50' : ''
+                activeSection === 'signout' ? 'bg-gray-100' : ''
               }`}
               onClick={() => setActiveSection('signout')}>
                 <div className="flex items-center space-x-3">

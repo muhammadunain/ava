@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { ChevronDown, ChevronRight, Plus, FileText, Edit3, Trash2, MessageSquare, Clock, Users, FileCheck, StickyNote, History, PenTool, Mail, Phone, ListTodo, MessageCircle, Info } from 'lucide-react';
+import { ChevronDown, ChevronRight, Plus, FileText, Edit3, Trash2, MessageSquare, Clock, Users, FileCheck, StickyNote, History, PenTool, Mail, Phone, ListTodo, MessageCircle, Info, Calendar } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
@@ -77,7 +77,7 @@ const ProjectManagementUI = () => {
 
  const tabs = [
     { name: 'Tasks', icon: ListTodo },
-    { name: 'Timeline', icon: Clock },
+    { name: 'Add to Calendar', icon: Calendar },
     { name: 'Follow up', icon: MessageCircle },
     { name: 'Details', icon: Info },
     { name: 'Documents', icon: FileText },
@@ -126,12 +126,12 @@ const ProjectManagementUI = () => {
 
       {/* Navigation Tabs */}
       <div className="border-b border-gray-300 px-6 bg-gray-100 rounded-md">
-        <nav className="flex items-center justify-between p-1  ">
+        <nav className="flex   items-center justify-between p-1  ">
           {tabs.map(({ name, icon: Icon }) => (
             <button
               key={name}
               onClick={() => setActiveTab(name)}
-              className={`py-2 px-2 flex items-center gap-1 cursor-pointer justify-center font-medium text-sm w-full ${
+              className={`py-2  px-2 flex items-center gap-1 cursor-pointer justify-center  text-xs font-medium w-full ${
                 activeTab === name
                   ? 'bg-white shadow-sm rounded-sm text-gray-900'
                   : 'text-gray-500 hover:text-gray-700'
@@ -246,7 +246,7 @@ const ProjectManagementUI = () => {
 
         )}
 
-        {activeTab === 'Timeline' && (
+        {activeTab === 'Add to Calendar' && (
           <DeadlinesUI/>
           
         )}

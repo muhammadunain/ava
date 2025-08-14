@@ -151,7 +151,7 @@ const PDFViewerEditor = () => {
         toast.success('Sending for E-sign')
       router.push('/')
         break;
-      case 'download':
+      case 'archive':
         alert('Downloading document...');
         break;
       case 'print':

@@ -200,52 +200,77 @@ const TransactionsDashboard: React.FC = () => {
             </div>
           </div>
           {/* Body */}
-          <div className="divide-y divide-gray-200">
-            {filteredTransactions.map((t) => (
-              <Link  key={t.id} href={'/opportunites'}>
-              <div
-               
-                className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1.5fr_2fr] gap-4 py-4 px-6 items-center text-sm hover:bg-gray-50 transition"
-              >
-                {columns.address && <div className="font-medium text-gray-900 cursor-pointer">{t.address}</div>}
-                {columns.owner && (
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-gray-900">{t.owner}</span>
-                    <Badge className={`px-2 py-0.5   text-xs font-medium bg-gray-100 rounded-full p-1`}>
-                      {t.ownerRole}
-                    </Badge>
-                  </div>
-                )}
-                {columns.price && <div className="font-medium text-gray-900">{t.price}</div>}
-                {columns.status && (
-                  <Badge className={`px-3 py-1 rounded text-xs font-medium w-fit `}>
-                    {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
-                  </Badge>
-                )}
-                {columns.timeline && (
-                  <div className="space-y-2">
-                    <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">{t.timeline}</span></div>
-                    <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">Document review</span></div>
-                  </div>
-                )}
-                {columns.nextTimeline && (
-                  <div className="space-y-2">
-                    <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">{t.nextTimeline}</span></div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
-                          style={{ width: `${t.progress}%` }}
-                        />
-                      </div>
-                      <span className="text-xs text-gray-500 font-medium">{t.progress}%</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              </Link>
-            ))}
+        <div className="divide-y divide-gray-200">
+  {filteredTransactions.map((t) => (
+    <Link key={t.id} href={"/opportunites"}>
+      <div
+        className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1.5fr_2fr] gap-3 py-3 px-5 items-center text-[13px] hover:bg-gray-50 transition"
+      >
+        {columns.address && (
+          <div className="font-medium text-gray-900 cursor-pointer">
+            {t.address}
           </div>
+        )}
+
+        {columns.owner && (
+          <div className="flex items-center gap-1.5">
+            <span className="font-medium text-gray-900">{t.owner}</span>
+            <Badge className="px-1.5 py-0.5 text-[10.5px] font-medium bg-gray-100 rounded-full">
+              {t.ownerRole}
+            </Badge>
+          </div>
+        )}
+
+        {columns.price && (
+          <div className="font-medium text-gray-900">{t.price}</div>
+        )}
+
+        {columns.status && (
+          <Badge className="px-2.5 py-0.5 rounded text-[10.5px] font-medium w-fit">
+            {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
+          </Badge>
+        )}
+
+        {columns.timeline && (
+          <div className="space-y-1">
+            <div className="text-gray-900 font-medium">
+              <span className="bg-gray-100 rounded-full px-2 py-0.5 text-[10.5px]">
+                {t.timeline}
+              </span>
+            </div>
+            <div className="text-gray-900 font-medium">
+              <span className="bg-gray-100 rounded-full px-2 py-0.5 text-[10.5px]">
+                Document review
+              </span>
+            </div>
+          </div>
+        )}
+
+        {columns.nextTimeline && (
+          <div className="space-y-1">
+            <div className="text-gray-900 font-medium">
+              <span className="bg-gray-100 rounded-full px-2 py-0.5 text-[10.5px]">
+                {t.nextTimeline}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="flex-1 bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${t.progress}%` }}
+                />
+              </div>
+              <span className="text-[10.5px] text-gray-500 font-medium">
+                {t.progress}%
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
+    </Link>
+  ))}
+</div>
+
         </div>
 
         {/* Mobile/Tablet */}
@@ -316,3 +341,54 @@ const TransactionsDashboard: React.FC = () => {
 };
 
 export default TransactionsDashboard;
+
+
+
+
+
+  // <div className="divide-y divide-gray-200">
+  //           {filteredTransactions.map((t) => (
+  //             <Link  key={t.id} href={'/opportunites'}>
+  //             <div
+               
+  //               className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1.5fr_2fr] gap-4 py-4 px-6 items-center text-sm hover:bg-gray-50 transition"
+  //             >
+  //               {columns.address && <div className="font-medium text-gray-900 cursor-pointer">{t.address}</div>}
+  //               {columns.owner && (
+  //                 <div className="flex items-center gap-2">
+  //                   <span className="font-medium text-gray-900">{t.owner}</span>
+  //                   <Badge className={`px-2 py-0.5   text-xs font-medium bg-gray-100 rounded-full p-1`}>
+  //                     {t.ownerRole}
+  //                   </Badge>
+  //                 </div>
+  //               )}
+  //               {columns.price && <div className="font-medium text-gray-900">{t.price}</div>}
+  //               {columns.status && (
+  //                 <Badge className={`px-3 py-1 rounded text-xs font-medium w-fit `}>
+  //                   {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
+  //                 </Badge>
+  //               )}
+  //               {columns.timeline && (
+  //                 <div className="space-y-2">
+  //                   <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">{t.timeline}</span></div>
+  //                   <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">Document review</span></div>
+  //                 </div>
+  //               )}
+  //               {columns.nextTimeline && (
+  //                 <div className="space-y-2">
+  //                   <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">{t.nextTimeline}</span></div>
+  //                   <div className="flex items-center gap-2">
+  //                     <div className="flex-1 bg-gray-200 rounded-full h-2">
+  //                       <div 
+  //                         className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
+  //                         style={{ width: `${t.progress}%` }}
+  //                       />
+  //                     </div>
+  //                     <span className="text-xs text-gray-500 font-medium">{t.progress}%</span>
+  //                   </div>
+  //                 </div>
+  //               )}
+  //             </div>
+  //             </Link>
+  //           ))}
+  //         </div>

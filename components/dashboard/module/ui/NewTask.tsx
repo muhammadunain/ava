@@ -5,7 +5,7 @@ import {
   Download, 
   Mail, 
   Edit3, 
-  Trash2, 
+  Archive, 
   MessageCircle, 
   Activity,
   ChevronRight,
@@ -14,7 +14,10 @@ import {
   Clock,
   Calendar,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  User,
+  PenTool,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -137,6 +140,8 @@ const TaskManagementUI = () => {
     deadline: '',
     requireDocuments: false
   });
+  const [newComment, setNewComment] = useState('');
+  const [quickNote, setQuickNote] = useState('');
 
   // Group tasks by date
   const groupedTasks = tasks.reduce((groups: { [key: string]: Task[] }, task) => {
@@ -202,7 +207,7 @@ const TaskManagementUI = () => {
     }
   };
 
-  const deleteTask = (taskId: string) => {
+  const archiveTask = (taskId: string) => {
     setTasks(tasks.filter(task => task.id !== taskId));
     if (selectedTask?.id === taskId) {
       setSelectedTask(null);
@@ -232,6 +237,22 @@ const TaskManagementUI = () => {
         requireDocuments: false
       });
       setIsEditTaskOpen(true);
+    }
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim()) {
+      // Here you would typically add the comment to your state/database
+      console.log('New comment:', newComment);
+      setNewComment('');
+    }
+  };
+
+  const handleAddQuickNote = () => {
+    if (quickNote.trim()) {
+      // Here you would typically add the quick note to your state/database
+      console.log('Quick note:', quickNote);
+      setQuickNote('');
     }
   };
 
@@ -287,7 +308,7 @@ const TaskManagementUI = () => {
   );
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-screen">
       {/* Left Sidebar - Tasks List */}
       <div className="w-1/2 bg-white border-r border-gray-200">
         {/* Header */}
@@ -317,11 +338,12 @@ const TaskManagementUI = () => {
                 <TaskDialog />
               </Dialog>
             </div>
+            
             {/* Task Header */}
-            <div className="p-6 rounded-lg border-b border-gray-200 bg-gray-50 ">
-              <div className="flex items-start justify-between mb-4 ">
+            <div className="p-6 rounded-lg border-b border-gray-200 bg-gray-50">
+              <div className="flex items-start justify-between mb-4">
                 <div>
-                  <div className="flex items-center gap-2 mb-2 ">
+                  <div className="flex items-center gap-2 mb-2">
                     <FileText className="w-5 h-5 text-gray-400" />
                     <h2 className="text-xl font-semibold text-gray-900">{selectedTask.title}</h2>
                     <Badge className={`text-xs font-medium ${getStatusColor(selectedTask.status)} flex items-center gap-1`}>
@@ -332,96 +354,79 @@ const TaskManagementUI = () => {
                   <div className="flex items-center gap-4 text-sm text-gray-600">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
-                      <span>{selectedTask.date}</span>
+                      <span>Jan 15, 2025</span>
                       <Badge variant="outline" className="ml-2 text-xs">
-                        {selectedTask.time}
+                        10:30 AM
                       </Badge>
                     </div>
                   </div>
-               <div className="flex justify-between items-center w-full">
-  <div className="text-sm text-gray-600">
-    Assigned to: <span className="text-gray-900">Dylan Sanders</span>
-  </div>
-  <div className="text-sm text-gray-600 ml-32">
-    Due: <span className="text-blue-600">Aug 27, 2025</span>
-  </div>
-</div>
+                  <div className="flex justify-between items-start w-full mt-2">
+                    <div className="text-sm text-gray-600">
+                      Assigned to: <span className="text-gray-900">Dylan Sanders</span>
+                    </div>
+                  </div>
+                    <div className="text-sm text-gray-600 ">
+                      Due: <span className="text-blue-600">Aug 27, 2025</span>
+                    </div>
                 </div>
-                <div className="flex gap-2">
+                
+                {/* Right side - Icon row */}
+                <div className="flex items-center gap-2">
                  
-                  {/* <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="sm">
-                        Actions
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <Download className="w-4 h-4 mr-2" />
-                        Download
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Mail className="w-4 h-4 mr-2" />
-                        Email
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Edit3 className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Edit3 className="w-4 h-4 mr-2" />
-                        E-Sign
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        Unassign
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        className="text-red-600"
-                        onClick={() => deleteTask(selectedTask.id)}
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu> */}
+                  <Button variant="ghost" size="sm" className=" text-sm h-8 w-8 uppercase text-gray-500">
+                   Signed
+                  </Button>
+                   <Button variant="ghost" size="sm" className="p-2 h-8 w-8">
+                    <User className="w-4 h-4 text-gray-500" />
+                  </Button>
+                  <Button variant="ghost" size="sm" className="p-2 h-8 w-8">
+                    <MessageSquare className="w-4 h-4 text-gray-500" />
+                  </Button>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-2">
-                <Button className='cursor-pointer' variant="outline" size="sm">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
-                </Button>
-                <Button className='cursor-pointer' variant="outline" size="sm">
-                  <Mail className="w-4 h-4 mr-2" />
-                  Email
-                </Button>
-               
-                  <Button    onClick={handleEditTask} className='cursor-pointer' variant="outline" size="sm">
+              {/* Action Buttons - Column Layout */}
+              <div className="grid grid-cols-3 gap-2">
+                {/* Column 1 */}
+                <div className="flex flex-col gap-2">
+                  <Button className='cursor-pointer' variant="outline" size="sm">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download
+                  </Button>
+                  <Link href={'/pdfviewer'}>
+                    <Button className='cursor-pointer w-full' variant="outline" size="sm">
+                      E-Sign
+                    </Button>
+                  </Link>
+                </div>
+                
+                {/* Column 2 */}
+                <div className="flex flex-col gap-2">
+                  <Button className='cursor-pointer' variant="outline" size="sm">
+                    <Mail className="w-4 h-4 mr-2" />
+                    Email
+                  </Button>
+                  <Button className='cursor-pointer' variant="outline" size="sm">
+                    Unassign
+                  </Button>
+                </div>
+                
+                {/* Column 3 */}
+                <div className="flex flex-col gap-2">
+                  <Button onClick={handleEditTask} className='cursor-pointer' variant="outline" size="sm">
                     <Edit3 className="w-4 h-4 mr-2" />
                     Edit
                   </Button>
-                
-              </div>
-
-              <div className="flex gap-2 mt-2">
-                <Link href={'/pdfviewer'}>
-                  <Button className='cursor-pointer' variant="outline" size="sm">
-                    E-Sign
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="text-orange-600 hover:text-orange-700"
+                    onClick={() => archiveTask(selectedTask.id)}
+                  >
+                    <Archive className="w-4 h-4 mr-2" />
+                    Archive
                   </Button>
-                </Link>
-                <Button className='cursor-pointer' variant="outline" size="sm">
-                  Unassign
-                </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="text-red-600 hover:text-red-700"
-                  onClick={() => deleteTask(selectedTask.id)}
-                >
-                  Delete
-                </Button>
+                </div>
               </div>
             </div>
 
@@ -435,24 +440,82 @@ const TaskManagementUI = () => {
                   <MessageCircle className="w-4 h-4 text-gray-400" />
                   <span className="font-medium text-gray-900">Comments & Activity</span>
                   <Badge variant="secondary" className="bg-blue-100 text-blue-800 rounded-full px-2 py-1 text-xs">
-                    5
+                    2
                   </Badge>
                 </div>
                 <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${showComments ? 'rotate-90' : ''}`} />
               </button>
               
               {showComments && (
-                <div className="px-4 pb-4">
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <p className="text-sm text-gray-600">Comments and activity will appear here...</p>
+              <div className="px-4 pb-4 border-t border-gray-100">
+                <div className="flex items-center gap-3 mt-4">
+                 
+                  <div className="flex-1">
+                    <Input
+                      placeholder="Add a quick note or comment..."
+                      className="text-sm border-gray-200 focus:border-blue-500"
+                      value={quickNote}
+                      onChange={(e) => setQuickNote(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter') {
+                          handleAddQuickNote();
+                        }
+                      }}
+                    />
+                    
                   </div>
+                  <Button size="sm" variant="ghost" onClick={handleAddQuickNote}>
+                    <MessageSquare className="w-4 h-4" />
+                  </Button>
+                  
                 </div>
+                 <div className="space-y-3 my-5">
+      {/* Document Approved Card */}
+      <div className="bg-white border border-gray-200 rounded-sm p-4 shadow-sm">
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-sm font-medium text-gray-600">DS</span>
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Document approved by:</span>
+              <span className="text-sm font-medium text-gray-900">Dylan Sanders</span>
+            </div>
+            <div className="text-xs text-gray-500 mt-1">
+              Thursday July 31, 2025
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Updated By Card */}
+      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-sm font-medium text-gray-600">AS</span>
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Updated by:</span>
+              <span className="text-sm font-medium text-gray-900">Adam Summers</span>
+            </div>
+            <div className="text-xs text-gray-500 mt-1">
+              Thursday July 31, 2025
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+              </div>
               )}
+              
+              {/* Quick Note Field - Always Visible */}
+              
             </div>
 
             {/* Document Preview/Form Area */}
-            <div className="flex-1 p-6 bg-white ">
-           <Image src={'/image.png'} width={500} height={500} alt='image' className='w-full'/>
+            <div className="flex-1 p-6 bg-white">
+              <Image src={'/image.png'} width={500} height={500} alt='image' className='w-full'/>
             </div>
 
             {/* Edit Task Dialog */}

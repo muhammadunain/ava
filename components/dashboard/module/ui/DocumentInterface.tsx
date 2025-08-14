@@ -135,7 +135,7 @@ const DocumentsInterface = () => {
         {/* Timeline - Compact Design */}
         {hasTimeline && isExpanded && (
           <div className="px-6 pb-4">
-            <div className="ml-12 relative">
+            <div className=" relative">
               <div className="space-y-0">
                 {timelineItems?.map((item: any, idx: any) => (
                   <div

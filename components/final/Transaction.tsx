@@ -6,11 +6,13 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import DeadlinesUI from '../DeadLinesUI';
 import { PropertyDetailsSection } from '../PropertyDetails';
-import { DocumentsSection } from '../DocumentsSection';
+import DocumentList from '../DocumentsSection';
 import FullScreenChatbot from '../chat/ChatModal';
 import TaskDialogMain from '../dialog/TaskDialog';
 import NotesApp from '../dialog/NoteDialog';
 import TaskManagementUI from '../dashboard/module/ui/NewTask';
+import CRMInterface from '../modules/form/FollowUp';
+import ActivityFeed from '../modules/form/Activity';
 
 const ProjectManagementUI = () => {
   const [activeTab, setActiveTab] = useState('Tasks');
@@ -81,7 +83,7 @@ const ProjectManagementUI = () => {
     { name: 'Follow up', icon: MessageCircle },
     { name: 'Details', icon: Info },
     { name: 'Documents', icon: FileText },
-    { name: 'Notes', icon: StickyNote },
+    { name: 'Activity', icon: StickyNote },
     { name: 'History', icon: History },
   ];
   const totalTasks = tasks.length + completedTasks.length;
@@ -252,100 +254,7 @@ const ProjectManagementUI = () => {
         )}
 
         {activeTab === 'Follow up' && (
-           <div className="">
-            {/* Action Buttons */}
-            <div className="flex gap-2 mb-6">
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <PenTool className="h-4 w-4" />
-                Create Note
-              </Button>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                Send Email
-              </Button>
-              <Button variant="outline" size="sm" className="flex items-center gap-2">
-                <MessageSquare className="h-4 w-4" />
-                Text
-              </Button>
-              <Button variant="outline" size="sm" className="flex items-center gap-2 text-blue-600">
-                <Phone className="h-4 w-4" />
-                Log Call
-              </Button>
-              <Button size="sm" className="ml-auto">
-                How it works
-              </Button>
-            </div>
-
-            {/* Text Area */}
-            <Textarea 
-              placeholder="Add call notes..." 
-              className="mb-4 min-h-[100px] resize-none"
-            />
-
-            {/* Call Options */}
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-sm">No Answer</span>
-              <span className="text-sm">Left Voicemail</span>
-              <span className="text-sm">Bad Number</span>
-            </div>
-
-            {/* Phone Input */}
-            <div className="flex gap-2 mb-6">
-              <Input 
-                value="(500) 535-1063 (mobile)" 
-                className="flex-1"
-                readOnly
-              />
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white">
-                Log Call
-              </Button>
-            </div>
-
-            {/* Filter Options */}
-            <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-              <span>All</span>
-              <span className="flex items-center gap-1">
-                <span>0</span>
-                <span>📧</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <span>2</span>
-                <span>📞</span>
-              </span>
-              <span>1</span>
-            </div>
-
-            {/* Communication Log */}
-            <div className="space-y-4">
-              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-xs">
-                  JS
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-sm">Jane Sema</span>
-                    <span className="text-xs text-gray-500">Evelyn Alvatt</span>
-                    <span className="text-xs text-gray-500 ml-auto">20 days ago</span>
-                  </div>
-                  <p className="text-sm text-gray-700">Hi Evelyn, just checking in to see what's new. Give a shout if you want to look at any homes this weekend!</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
-                <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-xs">
-                  JS
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-sm">Jane Sema</span>
-                    <span className="text-xs text-gray-500">Evelyn Alvatt</span>
-                    <span className="text-xs text-gray-500 ml-auto">20 days ago</span>
-                  </div>
-                  <p className="text-sm text-gray-700">Looking forward to connecting!</p>
-                </div>
-              </div>
-            </div>
-          </div>
+         <CRMInterface/>
         )}
 
         {activeTab === 'Details' && (
@@ -353,11 +262,11 @@ const ProjectManagementUI = () => {
         )}
 
         {activeTab === 'Documents' && (
-         <DocumentsSection/>
+         <DocumentList/>
         )}
 
-        {activeTab === 'Notes' && (
-          <NotesApp/>
+        {activeTab === 'Activity' && (
+          <ActivityFeed/>
         )}
 
         {activeTab === 'History' && (

@@ -21,6 +21,7 @@ import {
   X,
   MousePointer
 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface FormElement {
   id: string;
@@ -43,7 +44,7 @@ const PDFormedit: React.FC = () => {
   const [editMode, setEditMode] = useState<boolean>(false); // Toggle between PDF interaction and form editing
   const fileInputRef = useRef<HTMLInputElement>(null);
   const pdfContainerRef = useRef<HTMLDivElement>(null);
-
+const router = useRouter()
   const tools = [
     { id: 'text', icon: Type, label: 'Text' },
     { id: 'money', icon: DollarSign, label: 'Money' },
@@ -184,6 +185,7 @@ const PDFormedit: React.FC = () => {
     switch(action) {
       case 'esign':
         showToast('Preparing for E-sign...', 'info');
+        router.push('/opportunites')
         break;
         
       case 'download':
@@ -546,7 +548,7 @@ const PDFormedit: React.FC = () => {
               <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50">
                 <button
                   onClick={() => handleSaveAction('esign')}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center space-x-3 transition-colors text-sm"
+                  className="w-full text-left px-4 py-2 cursor-pointer hover:bg-gray-50 flex items-center space-x-3 transition-colors text-sm"
                 >
                   <Send className="w-4 h-4 text-gray-500" />
                   <span>Send for eSign</span>

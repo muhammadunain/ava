@@ -8,7 +8,9 @@ import {
   Calendar,
   X,
   Check,
+  BadgeIcon,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const DocumentsInterface = () => {
   // Initialize with only the second item (16 Aug - Buyer Broker Agreement) open by default
@@ -61,7 +63,7 @@ const DocumentsInterface = () => {
             }
           }}
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <span className="text-sm text-gray-500 min-w-[60px]">{date}</span>
             <div className="flex items-center gap-2">
               <span
@@ -84,19 +86,32 @@ const DocumentsInterface = () => {
                 {type}
               </span>
               {isCheckbox ? (
+                <>
+                <div className="flex items-center gap-2">
+                    <Badge className="h-5 min-w-5 bg-gray-100 text-blue-500 font-normal rounded-full px-1 font-mono tabular-nums">
+                      DS
+                    </Badge>
+                  </div>
                 <div
-                  className={`w-4 h-4 rounded border-2 flex items-center justify-center ${
-                    isChecked
+                  className={`w-4 h-4 rounded border-2 flex items-center justify-center ${isChecked
                       ? "bg-blue-600 border-blue-600"
-                      : "bg-white border-gray-300"
-                  }`}
+                      : "bg-white border-gray-300"}`}
                 >
                   {isChecked && (
                     <Check className="w-2.5 h-2.5 text-white stroke-2" />
                   )}
                 </div>
+                
+                  </>
               ) : (
+                <>
+                <div className="flex items-center gap-2">
+                    <Badge className="h-5 min-w-5 bg-gray-100 text-blue-500 font-normal rounded-full px-1 font-mono tabular-nums">
+          DS
+        </Badge>
                 <FileText className="w-4 h-4 text-gray-400" />
+                </div>
+                </>
               )}
               <span className="text-gray-900 font-medium text-sm">{title}</span>
             </div>
@@ -136,11 +151,11 @@ const DocumentsInterface = () => {
         {hasTimeline && isExpanded && (
           <div className="px-6 pb-4">
             <div className=" relative">
-              <div className="space-y-0">
+              <div className="space-y-0 ml-30">
                 {timelineItems?.map((item: any, idx: any) => (
                   <div
                     key={idx}
-                    className="relative flex items-start gap-3 py-2"
+                    className="relative flex items-start  py-2"
                   >
                     {/* Vertical line - positioned to connect through markers */}
                     {idx < timelineItems.length - 1 && (
@@ -205,17 +220,19 @@ const DocumentsInterface = () => {
                           >
                             {item.title}
                           </div>
+                          {/* Type indicator */}
+                          <div className="flex items-center justify-start gap-3">
+
                           <div className="text-xs text-gray-500 mt-0.5">
                             {item.date}
                           </div>
-                          {/* Type indicator */}
-                          <div className="mt-1">
-                            <span
-                              className={`text-xs px-1.5 py-0.5 rounded-full font-medium ${
+                          <div className="rounded-full">
+                            <Badge
+                              className={`text-xs  rounded-full font-medium ${
                                 type === "2d"
                                   ? "bg-red-100 text-red-600"
                                   : type === "3d"
-                                  ? "bg-blue-100 text-blue-600"
+                                  ? "bg-red-100 text-red-600"
                                   : type === "5d"
                                   ? "bg-yellow-100 text-yellow-600"
                                   : type === "6d"
@@ -226,7 +243,8 @@ const DocumentsInterface = () => {
                               }`}
                             >
                               {type}
-                            </span>
+                            </Badge>
+                          </div>
                           </div>
                         </div>
                       </div>
@@ -403,90 +421,45 @@ const DocumentsInterface = () => {
         },
       ],
     },
+    
+    
     {
       date: "24 Aug",
-      type: "5d",
-      title: "Seller Agreement",
-      status: "use-forms",
+        type: "6d",
+      title: "Schedule home inspection",
+      status: "pending",
       hasTimeline: false,
-      onClick: () => setIsModalOpen(true),
+      isCheckbox: true,
     },
     {
       date: "27 Aug",
+        type: "2d",
+      title: "Receive Disclosures",
+      status: "pending",
+      hasTimeline: false,
+      isCheckbox: true,
+    },
+    {
+      date: "28 Aug",
+        type: "6d",
+      title: "Review Disclosures",
+      status: "pending",
+      hasTimeline: false,
+      isCheckbox: true,
+    },
+    
+    {
+      date: "24 Aug",
       type: "6d",
-      title: "Purchase agreement",
+      title: "Buyer Election",
       status: "use-forms",
       hasTimeline: false,
       onClick: () => setIsModalOpen(true),
-    },
-    {
-      date: "29 Aug",
-      type: "9d",
-      title: "Escrow deposit receipt",
-      status: "upload",
-      hasTimeline: true,
-      timelineItems: [
-        {
-          completed: true,
-          icon: "calendar",
-          title: "Document Upload Deadline",
-          date: "Aug 30, 2025",
-        },
-        {
-          completed: false,
-          icon: "file",
-          title: "Receipt Verification",
-          date: "Sep 1, 2025",
-        },
-      ],
-    },
-    {
-      date: "29 Aug",
-      type: "9d",
-      title: "Buyer Election",
-      status: "upload",
-      hasTimeline: true,
-      timelineItems: [
-        {
-          completed: true,
-          icon: "calendar",
-          title: "Election Period Start",
-          date: "Aug 29, 2025",
-        },
-        {
-          completed: true,
-          icon: "file",
-          title: "Document Submission",
-          date: "Sep 2, 2025",
-        },
-        {
-          completed: false,
-          icon: "file",
-          title: "Final Review Period",
-          date: "Sep 5, 2025",
-        },
-      ],
-    },
-    {
-      date: "02 Sep",
-      
-      title: "Property Disclosure Statement Review",
-      status: "pending",
-      hasTimeline: false,
-      isCheckbox: true,
-    },
-    {
-      date: "05 Sep",
-    
-      title: "Final Walkthrough Completion Checklist",
-      status: "pending",
-      hasTimeline: false,
-      isCheckbox: true,
     },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto bg-white">
+    <div className=" mx-auto bg-white">
       <div className="rounded-lg">
         <div>
           {documents.map((doc, i) => (

@@ -12,6 +12,8 @@ import React, { useState } from 'react';
 import ContactsInput from './ContactField';
 import SignersAndOtherParties from './AddSigners';
 import AgentsCommissions from '@/components/final/commision';
+import DrawerSelectForm from './DrawerSelectForm';
+import SimpleUploadDialog from '@/components/dialog/multiformdialog';
 
 interface MLSData {
   id: string;
@@ -41,7 +43,8 @@ const MultiStepTransactionForm = () => {
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [selectedMLS, setSelectedMLS] = useState<MLSData | null>(null);
   const [formData, setFormData] = useState<Partial<MLSData>>({});
-  const [selectedForms, setSelectedForms] = useState<string[]>([]);
+const [selectedForm, setSelectedForm] = useState<string | null>(null);
+
   
   // Collapsible states
   const [isBasicInfoOpen, setIsBasicInfoOpen] = useState(true);
@@ -122,13 +125,9 @@ const MultiStepTransactionForm = () => {
     setShowImportDialog(false);
   };
 
-  const handleFormToggle = (formId: string) => {
-    setSelectedForms(prev => 
-      prev.includes(formId) 
-        ? prev.filter(id => id !== formId)
-        : [...prev, formId]
-    );
-  };
+ const handleFormToggle = (formId: string) => {
+  setSelectedForm(prev => (prev === formId ? null : formId));
+};
 
   const handleNext = () => {
     if (currentStep < 5) {
@@ -155,9 +154,9 @@ const MultiStepTransactionForm = () => {
   const renderStepIndicator = () => {
     const steps = [
       { number: 1, title: 'Transaction name', active: currentStep === 1 },
-      { number: 2, title: 'Agents & Commissions', active: currentStep === 2 },
-      { number: 3, title: 'Transaction Form', active: currentStep === 3 },
-      { number: 4, title: 'Add Forms', active: currentStep === 4 },
+      { number: 2, title: 'Transaction Form', active: currentStep === 2 },
+      { number: 3, title: 'Add Forms', active: currentStep === 3 },
+      { number: 4, title: 'Agents & Commissions', active: currentStep === 4 },
       { number: 5, title: 'Add Signers', active: currentStep === 5 }
     ];
 
@@ -246,28 +245,7 @@ const MultiStepTransactionForm = () => {
   );
 
  const renderStep2 = () => (
-  <div className="max-w-4xl mx-auto">
-   <AgentsCommissions/>
-
-    {/* Footer actions */}
-    <div className="flex justify-between items-center mt-8">
-      <div className="text-sm text-gray-500">step 1 of 4</div>
-
-      <div className="flex space-x-3">
-        <Button className='cursor-pointer' variant="outline" onClick={handleBack}>
-          Back
-        </Button>
-
-        <Button onClick={handleNext} className="bg-black cursor-pointer text-white hover:bg-gray-800">
-          Next
-        </Button>
-      </div>
-    </div>
-  </div>
-);
-
-  const renderStep3 = () => (
-     <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto">
     <div className="mb-8">
       <h2 className="text-2xl font-semibold mb-2">Create New Transaction</h2>
       <p className="text-gray-500">How would you like to enter data in your document?</p>
@@ -815,64 +793,90 @@ const MultiStepTransactionForm = () => {
       </div>
     </div>
   </div>
+);
+
+  const renderStep3 = () => (
+  <div className="max-w-3xl mx-auto">
+  <div className="mb-8">
+    <h2 className="text-2xl font-semibold mb-2">Forms</h2>
+    <p className="text-gray-500 flex items-center">
+      <span className="w-5 h-5 flex items-center justify-center mr-2">
+        <BotIcon className="text-blue-600 " />
+      </span>
+      We have identified following lists based on your transactions.
+    </p>
+  </div>
+
+  <div className="space-y-3">
+    {availableForms.map((form) => (
+      <div
+        key={form.id}
+        className="flex items-center space-x-3 p-3 bg-gray-100 hover:bg-gray-50 rounded-lg"
+      >
+        <input
+          type="checkbox"
+          name="selectedForm"
+          checked={selectedForm === form.id}
+          onChange={() => setSelectedForm(form.id)}
+          className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 cursor-pointer"
+        />
+        <label className="text-gray-900 cursor-pointer flex-1">
+          {form.name}
+        </label>
+      </div>
+    ))}
+
+    <div className="mt-8 bg-gray-100 border-2 border-dashed border-gray-200 rounded-md h-28 flex flex-col items-center justify-center text-center">
+      <Newspaper className="w-6 h-6 text-gray-400 mb-1" />
+      <div className="text-sm text-gray-500">
+        <SimpleUploadDialog />
+        <span className="mx-5">or</span>
+        <DrawerSelectForm />
+      </div>
+    </div>
+  </div>
+
+  <div className="flex justify-between items-center mt-12">
+    <div className="text-sm text-gray-500">step 3 of 4</div>
+    <div className="flex space-x-3">
+      <Button className="cursor-pointer" variant="outline" onClick={handleBack}>
+        Back
+      </Button>
+      <Button
+        onClick={handleNext}
+        className="bg-black cursor-pointer text-white hover:bg-gray-800"
+      >
+        Next
+      </Button>
+    </div>
+  </div>
+</div>
+
   );
 
   const renderStep4 = () => (
-     <div className="max-w-2xl mx-auto">
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-2">Forms</h2>
-        <p className="text-gray-500 flex items-center">
-          <span className="w-5 h-5 flex items-center justify-center mr-2">
-            <BotIcon className="text-blue-600 "/>
-          </span>
-          We have identified following lists based on your transactions.
-        </p>
-      </div>
+     <div className="max-w-4xl mx-auto">
+   <AgentsCommissions/>
 
-      <div className="space-y-3">
-        {availableForms.map((form) => (
-          <div key={form.id} className="flex items-center space-x-3 p-3 bg-gray-100 hover:bg-gray-50 rounded-lg">
-            <input
-              type="checkbox"
-              name="selectedForm"
-              onChange={() => handleFormToggle(form.id)}
-              className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-            />
-            <label className="text-gray-900 cursor-pointer flex-1">
-              {form.name}
-            </label>
-          </div>
-        ))}
-          <div className="mt-8 bg-gray-100  border-2 border-dashed border-gray-200  rounded-md h-28 flex flex-col items-center justify-center text-center">
-      <Newspaper className="w-6 h-6 text-gray-400 mb-1" />
-      <div className="text-sm text-gray-500">
-        <button className="text-blue-600 underline">Add more forms</button>
-        <span className="mx-5">or</span>
-        <button className="text-gray-600 underline">attach a document</button>
+    {/* Footer actions */}
+    <div className="flex justify-between items-center mt-8">
+      <div className="text-sm text-gray-500">step 1 of 4</div>
+
+      <div className="flex space-x-3">
+        <Button className='cursor-pointer' variant="outline" onClick={handleBack}>
+          Back
+        </Button>
+
+        <Button onClick={handleNext} className="bg-black cursor-pointer text-white hover:bg-gray-800">
+          Next
+        </Button>
       </div>
     </div>
-      </div>
-
-      <div className="flex justify-between items-center mt-12">
-        <div className="text-sm text-gray-500">
-          step 3 of 4
-        </div>
-        <div className="flex space-x-3">
-          <Button className='cursor-pointer' variant="outline" onClick={handleBack}>
-            Back
-          </Button>
-          <Button onClick={handleNext} className="bg-black cursor-pointer text-white hover:bg-gray-800">
-            Next
-          </Button>
-        </div>
-      </div>
-    </div>
+  </div>
   );
 
   const renderStep5 = () => (
     <div className="max-w-4xl mx-auto">
-      
-
                   <SignersAndOtherParties/>
     
 

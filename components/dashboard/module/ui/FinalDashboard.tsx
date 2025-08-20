@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useMemo, useState } from "react";
 import {
   Ban,
@@ -6,12 +7,10 @@ import {
   CheckCircle2,
   CircleCheck,
   Clock3,
-  HousePlusIcon,
-  Lightbulb,
-  List,
+  Home,
   SlidersHorizontal,
+  X,
 } from "lucide-react";
-import Link from "next/link";
 
 type Transaction = {
   id: number;
@@ -21,8 +20,8 @@ type Transaction = {
   price: string;
   lastUpdated: string;
   status: "active" | "opportunity" | "closed" | "pending" | "void";
-  timeline: string;
-  nextTimeline: string;
+  currentTimeline: string;
+  upcomingTimeline: string;
   progress: number;
 };
 
@@ -36,40 +35,33 @@ const filters = [
 ];
 
 const initialTransactions: Transaction[] = [
-  { id: 1, owner: "Ethan Miller", ownerRole: "buyer", address: "742 Evergreen Terrace", price: "$238,000", lastUpdated: "Aug 31, 2025", status: "active", timeline: "Escrow receipt received", nextTimeline: "Deposited payment", progress: 58 },
-  { id: 2, owner: "Ryan Mitchell", ownerRole: "seller", address: "375 Cedar Ridge Road", price: "$850,000", lastUpdated: "Aug 31, 2025", status: "active", timeline: "Escrow receipt received", nextTimeline: "Escrow receipt received", progress: 85 },
-  { id: 3, owner: "Grace Sullivan", ownerRole: "buyer", address: "921 Aspen Meadows Way", price: "$450,500", lastUpdated: "Aug 31, 2025", status: "pending", timeline: "Buyer election", nextTimeline: "Buyer broker agreement", progress: 35 },
-  { id: 4, owner: "Michael Johnson", ownerRole: "buyer", address: "1847 Sunset Boulevard", price: "$675,000", lastUpdated: "Sep 1, 2025", status: "active", timeline: "Purchase agreement", nextTimeline: "Home inspection", progress: 42 },
-  { id: 5, owner: "Sarah Davis", ownerRole: "seller", address: "523 Oak Street", price: "$320,000", lastUpdated: "Sep 2, 2025", status: "pending", timeline: "Listing agreement", nextTimeline: "Property valuation", progress: 25 },
-  { id: 6, owner: "David Wilson", ownerRole: "both", address: "789 Pine Avenue", price: "$1,100,000", lastUpdated: "Sep 3, 2025", status: "active", timeline: "Contract signed", nextTimeline: "Financing approval", progress: 65 },
-  { id: 7, owner: "Jennifer Brown", ownerRole: "buyer", address: "456 Elm Drive", price: "$425,000", lastUpdated: "Sep 4, 2025", status: "pending", timeline: "Offer submitted", nextTimeline: "Seller response", progress: 15 },
-  { id: 8, owner: "Robert Taylor", ownerRole: "seller", address: "321 Maple Lane", price: "$780,000", lastUpdated: "Sep 5, 2025", status: "active", timeline: "Home inspection", nextTimeline: "Appraisal scheduled", progress: 72 },
-  { id: 9, owner: "Lisa Anderson", ownerRole: "buyer", address: "654 Birch Road", price: "$550,000", lastUpdated: "Sep 6, 2025", status: "pending", timeline: "Pre-approval received", nextTimeline: "House hunting", progress: 20 },
-  { id: 10, owner: "James Martinez", ownerRole: "both", address: "987 Cedar Court", price: "$925,000", lastUpdated: "Sep 7, 2025", status: "active", timeline: "Final walkthrough", nextTimeline: "Closing preparation", progress: 90 },
-  { id: 11, owner: "Amanda White", ownerRole: "seller", address: "147 Willow Street", price: "$395,000", lastUpdated: "Sep 8, 2025", status: "pending", timeline: "Market analysis", nextTimeline: "Pricing strategy", progress: 10 },
-  { id: 12, owner: "Christopher Lee", ownerRole: "buyer", address: "258 Spruce Avenue", price: "$680,000", lastUpdated: "Sep 9, 2025", status: "active", timeline: "Mortgage application", nextTimeline: "Credit verification", progress: 55 },
-  { id: 13, owner: "Michelle Garcia", ownerRole: "seller", address: "369 Redwood Drive", price: "$515,000", lastUpdated: "Sep 10, 2025", status: "pending", timeline: "Photography scheduled", nextTimeline: "MLS listing", progress: 30 },
-  { id: 14, owner: "Kevin Thompson", ownerRole: "buyer", address: "741 Cypress Lane", price: "$890,000", lastUpdated: "Sep 11, 2025", status: "active", timeline: "Inspection complete", nextTimeline: "Negotiation phase", progress: 68 },
-  { id: 15, owner: "Rachel Moore", ownerRole: "both", address: "852 Hickory Street", price: "$1,250,000", lastUpdated: "Sep 12, 2025", status: "pending", timeline: "Title search", nextTimeline: "Insurance quotes", progress: 45 },
+  { id: 1, owner: "Ethan Miller", ownerRole: "buyer", address: "742 Evergreen Terrace", price: "$238,000", lastUpdated: "Aug 31, 2025", status: "active", currentTimeline: "Buyer broker agreement", upcomingTimeline: "Escrow receipt received", progress: 58 },
+  { id: 2, owner: "Olivia Thompson", ownerRole: "buyer", address: "1199 Oakwood Drive", price: "$450,000", lastUpdated: "Aug 31, 2025", status: "active", currentTimeline: "Purchase agreement", upcomingTimeline: "Deposited payment", progress: 45 },
+  { id: 3, owner: "Jacob Anderson", ownerRole: "seller", address: "56 Maple Grove Lane", price: "$125,000", lastUpdated: "Aug 31, 2025", status: "pending", currentTimeline: "Escrow receipt received", upcomingTimeline: "Purchase agreement", progress: 35 },
+  { id: 4, owner: "Ryan Mitchell", ownerRole: "seller", address: "375 Cedar Ridge Road", price: "$850,000", lastUpdated: "Sep 1, 2025", status: "active", currentTimeline: "Schedule home inspection", upcomingTimeline: "Deposited payment", progress: 58 },
+  { id: 5, owner: "Emily Harris", ownerRole: "both", address: "210 Birch Hill Avenue", price: "$1,250,000", lastUpdated: "Sep 2, 2025", status: "pending", currentTimeline: "Receives disclosures", upcomingTimeline: "Buyer broker agreement", progress: 35 },
+  { id: 6, owner: "Nathan Parker", ownerRole: "seller", address: "48 Pinecrest Boulevard", price: "$550,000", lastUpdated: "Sep 3, 2025", status: "pending", currentTimeline: "Review disclosures", upcomingTimeline: "Deposited payment", progress: 70 },
+  { id: 7, owner: "Grace Sullivan", ownerRole: "buyer", address: "921 Aspen Meadows Way", price: "$450,500", lastUpdated: "Sep 4, 2025", status: "pending", currentTimeline: "Buyer election", upcomingTimeline: "Deposited payment", progress: 35 },
+  { id: 8, owner: "Benjamin Reed", ownerRole: "both", address: "1520 Silver Lake Drive", price: "$1,200,000", lastUpdated: "Sep 5, 2025", status: "active", currentTimeline: "Remove Contingencies", upcomingTimeline: "Purchase agreement", progress: 85 },
 ];
 
 const statusClasses: Record<Transaction["status"], string> = {
-  active: "bg-blue-100 text-blue-800 border border-blue-200",
-  opportunity: "bg-yellow-100 text-yellow-800 border border-yellow-200",
-  closed: "bg-green-100 text-green-800 border border-green-200",
-  pending: "bg-red-100 text-red-800 border border-red-200",
-  void: "bg-gray-100 text-gray-800 border border-gray-200",
+  active: "bg-blue-50 text-blue-700 border border-blue-200",
+  opportunity: "bg-yellow-50 text-yellow-700 border border-yellow-200",
+  closed: "bg-green-50 text-green-700 border border-green-200",
+  pending: "bg-red-50 text-red-700 border border-red-200",
+  void: "bg-gray-50 text-gray-700 border border-gray-200",
 };
 
 const roleClasses: Record<string, string> = {
-  buyer: "bg-green-100 text-green-700 border border-green-200",
-  seller: "bg-orange-100 text-orange-700 border border-orange-200",
-  both: "bg-blue-100 text-blue-700 border border-blue-200",
+  buyer: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+  seller: "bg-orange-50 text-orange-700 border border-orange-200",
+  both: "bg-blue-50 text-blue-700 border border-blue-200",
 };
 
 const iconMap: Record<string, React.ReactNode> = {
   All: <BookCheck className="w-4 h-4" />,
-  Opportunity: <HousePlusIcon className="w-4 h-4" />,
+  Opportunity: <Home className="w-4 h-4" />,
   Active: <CircleCheck className="w-4 h-4" />,
   Pending: <Clock3 className="w-4 h-4" />,
   Closed: <CheckCircle2 className="w-4 h-4" />,
@@ -77,23 +69,32 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 const Badge = ({ children, className }: { children: React.ReactNode; className: string }) => (
-  <span className={`inline-flex items-center justify-center px-2 py-1 text-xs font-medium rounded-full ${className}`}>
+  <span className={`inline-flex items-center justify-center px-2.5 py-0.5 text-xs font-medium rounded-full ${className}`}>
     {children}
   </span>
 );
 
-const Button = ({ children, className, onClick, ...props }: any) => (
-  <button className={`inline-flex items-center justify-center ${className}`} onClick={onClick} {...props}>
-    {children}
-  </button>
-);
+const Button = ({ children, className, onClick, variant = "default", size = "default", ...props }: any) => {
+  const baseClasses = "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+  
+
+  return (
+    <button 
+      
+      onClick={onClick} 
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
 
 const Checkbox = ({ checked, onCheckedChange }: { checked: boolean; onCheckedChange: (checked: boolean) => void }) => (
   <input 
     type="checkbox" 
     checked={checked} 
     onChange={(e) => onCheckedChange(e.target.checked)}
-    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-2"
   />
 );
 
@@ -104,8 +105,8 @@ const TransactionsDashboard: React.FC = () => {
     owner: true,
     price: true,
     status: true,
-    timeline: true,
-    nextTimeline: true,
+    currentTimeline: true,
+    upcomingTimeline: true,
   });
   const [showColumnPopover, setShowColumnPopover] = useState(false);
 
@@ -116,14 +117,14 @@ const TransactionsDashboard: React.FC = () => {
   }, [activeFilter]);
 
   return (
-    <section className="w-full">
+    <div className="w-full space-y-6 p-6">
       {/* Header */}
-      <header className="mb-6">
-        <p className="text-sm text-gray-500 mb-1">Thursday, July 31</p>
-        <h2 className="text-2xl sm:text-3xl font-semibold">
-          Good afternoon, <span className="text-blue-500">Dave</span>
-        </h2>
-      </header>
+      <div className="space-y-2">
+        <p className="text-sm text-gray-500">Thursday, July 31</p>
+        <h1 className="text-3xl font-medium tracking-tight text-gray-900">
+          Good afternoon, <span className="text-blue-600">Dave</span>
+        </h1>
+      </div>
 
       {/* Filters */}
       <nav className="mb-8">
@@ -134,7 +135,7 @@ const TransactionsDashboard: React.FC = () => {
               <button
                 key={filter.name}
                 onClick={() => setActiveFilter(filter.name)}
-                className={`py-2 px-1 sm:px-2 flex items-center cursor-pointer justify-center gap-1 rounded-sm text-xs sm:text-sm  transition-colors ${
+                className={`py-2 px-1 sm:px-2 flex items-center cursor-pointer justify-center gap-1 rounded-sm text-xs sm:text-sm transition-colors ${
                   isActive
                     ? "bg-white text-gray-900 shadow-sm"
                     : "text-gray-600 hover:text-gray-900"
@@ -149,246 +150,200 @@ const TransactionsDashboard: React.FC = () => {
         </div>
       </nav>
 
-      {/* Transactions */}
-      <div className="pt-6 bg-white rounded-lg">
-        <div className="flex items-center justify-between mb-4 px-6">
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg sm:text-xl font-semibold">Recent Transactions</h3>
-            <Badge className="rounded-full w-6 h-6 flex items-center justify-center bg-blue-500 text-white">
+      {/* Transactions Table Card */}
+      <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
+        {/* Card Header */}
+        <div className="flex flex-row items-center justify-between border-b border-gray-200 p-6">
+          <div className="flex items-center gap-3">
+            <h2 className="text-xl font-medium text-gray-900">Recent Transactions</h2>
+            <Badge className="rounded-full bg-blue-500  text-white border border-blue-200">
               {filteredTransactions.length}
             </Badge>
           </div>
           <div className="relative">
-            <Button 
-              className="text-blue-500 hover:text-blue-600 cursor-pointer p-2" 
+            <Button
+            
+              variant="outline"
+              size="icon"
               onClick={() => setShowColumnPopover(!showColumnPopover)}
+            
             >
-              <SlidersHorizontal className="h-5 w-5" />
+              <SlidersHorizontal className="h-4 w-4 text-blue-500 cursor-pointer" />
             </Button>
             {showColumnPopover && (
-              <div className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10">
-                <p className="text-sm font-medium mb-3">Show/Hide Columns</p>
-                <div className="space-y-2">
-                  {Object.keys(columns).map((col) => (
-                    <label key={col} className="flex items-center gap-2">
-                      <Checkbox
-                        checked={columns[col as keyof typeof columns]}
-                        onCheckedChange={(c) =>
-                          setColumns((p) => ({ ...p, [col]: Boolean(c) }))
-                        }
-                      />
-                      <span className="text-sm  capitalize">{col === 'owner' ? 'Representing' : col.replace(/([A-Z])/g, ' $1').trim()}</span>
-                    </label>
-                  ))}
+              <div className="absolute right-0 top-full mt-2 w-64 rounded-md border border-gray-200 bg-white shadow-lg z-10">
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-medium text-gray-900">Show/Hide Columns</h4>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setShowColumnPopover(false)}
+                      className="h-6 w-6"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="space-y-3">
+                    {Object.entries(columns).map(([col, checked]) => (
+                      <div key={col} className="flex items-center space-x-3">
+                        <Checkbox
+                          checked={checked}
+                          onCheckedChange={(c) =>
+                            setColumns((p) => ({ ...p, [col]: Boolean(c) }))
+                          }
+                        />
+                        <label className="text-sm font-medium text-gray-700 cursor-pointer capitalize">
+                          {col === 'owner' ? 'Representing' : 
+                           col === 'currentTimeline' ? 'Current Timeline' :
+                           col === 'upcomingTimeline' ? 'Upcoming Timeline' :
+                           col.replace(/([A-Z])/g, ' $1').trim()}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* Desktop */}
-        <div className="hidden lg:block">
-          {/* Header */}
-          <div className="py-3 border-b border-gray-200 px-6">
-            <div className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1.5fr_2fr] gap-4 text-sm font-medium text-gray-500">
-              {columns.address && <div>Address</div>}
-              {columns.owner && <div>Representing</div>}
-              {columns.price && <div>Price</div>}
-              {columns.status && <div>Status</div>}
-              {columns.timeline && <div>Timeline</div>}
-              {columns.nextTimeline && <div>Next Timeline</div>}
+        {/* Card Content */}
+        <div className="p-0">
+          {filteredTransactions.length === 0 ? (
+            <div className="text-center py-12 px-6">
+              <div className="text-4xl mb-4">📭</div>
+              <h3 className="text-lg font-medium text-gray-900">No transactions found</h3>
+              <p className="text-gray-500">Try adjusting your filters to see more results.</p>
             </div>
-          </div>
-          {/* Body */}
-        <div className="divide-y divide-gray-200">
-  {filteredTransactions.map((t) => (
-    <Link key={t.id} href={"/opportunites"}>
-      <div
-        className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1.5fr_2fr] gap-3 py-3 px-5 items-center text-[13px] hover:bg-gray-50 transition"
-      >
-        {columns.address && (
-          <div className="font-medium text-gray-900 cursor-pointer">
-            {t.address}
-          </div>
-        )}
-
-        {columns.owner && (
-          <div className="flex items-center gap-1.5">
-            <span className="font-medium text-gray-900">{t.owner}</span>
-            <Badge className="px-1.5 py-0.5 text-[10.5px] font-medium bg-gray-100 rounded-full">
-              {t.ownerRole}
-            </Badge>
-          </div>
-        )}
-
-        {columns.price && (
-          <div className="font-medium text-gray-900">{t.price}</div>
-        )}
-
-        {columns.status && (
-          <Badge className="px-2.5 py-0.5 rounded text-[10.5px] font-medium w-fit">
-            {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
-          </Badge>
-        )}
-
-        {columns.timeline && (
-          <div className="space-y-1">
-            <div className="text-gray-900 font-medium">
-              <span className="bg-gray-100 rounded-full px-2 py-0.5 text-[10.5px]">
-                {t.timeline}
-              </span>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    {columns.address && (
+                      <th className="text-left py-3 px-4 font-medium text-gray-500 text-sm w-1/6">
+                        Address
+                      </th>
+                    )}
+                    {columns.owner && (
+                      <th className="text-left py-3 px-4 font-medium text-gray-500 text-sm w-1/6">
+                        Representing
+                      </th>
+                    )}
+                    {columns.price && (
+                      <th className="text-left py-3 px-4 font-medium text-gray-500 text-sm w-1/8">
+                        Price
+                      </th>
+                    )}
+                    {columns.status && (
+                      <th className="text-left py-3 px-4 font-medium text-gray-500 text-sm w-1/8">
+                        Status
+                      </th>
+                    )}
+                    {columns.currentTimeline && (
+                      <th className="text-left py-3 px-4 font-medium text-gray-500 text-sm w-1/4">
+                        Current Timeline
+                      </th>
+                    )}
+                    {columns.upcomingTimeline && (
+                      <th className="text-left py-3 px-4 font-medium  text-gray-500 text-sm w-1/6">
+                        Upcoming Timeline
+                      </th>
+                    )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredTransactions.map((transaction, index) => (
+                    <tr 
+                      key={transaction.id} 
+                      className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${
+                        index === filteredTransactions.length - 1 ? 'border-b-0' : ''
+                      }`}
+                    >
+                      {columns.address && (
+                        <td className="py-4 px-4">
+                          <div className="font-medium text-gray-900 truncate" title={transaction.address}>
+                            {transaction.address}
+                          </div>
+                        </td>
+                      )}
+                      {columns.owner && (
+                        <td className="py-4 px-4">
+                          <div className="flex items-center gap-1">
+                            <div className="font-medium text-sm text-gray-900" title={transaction.owner}>
+                              {transaction.owner}
+                            </div>
+                            <Badge className="bg-gray-100 text-gray-700  rounded-full text-sm">
+                              {transaction.ownerRole}
+                            </Badge>
+                          </div>
+                        </td>
+                      )}
+                      {columns.price && (
+                        <td className="py-4 px-4">
+                          <div className="font-medium text-gray-900">
+                            {transaction.price}
+                          </div>
+                        </td>
+                      )}
+                      {columns.status && (
+                        <td className="py-4 px-4">
+                          <div className="text-sm font-medium text-gray-900 capitalize">
+                            {transaction.status}
+                          </div>
+                        </td>
+                      )}
+                      {columns.currentTimeline && (
+                        <td className="py-4 px-4">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-start gap-2">
+                              <span className="p-1 font-medium  bg-gray-100 text-gray-700  rounded-full text-sm truncate" title={transaction.currentTimeline}>
+                                {transaction.currentTimeline}
+                              </span>
+                              <div className="flex items-center gap-1">
+                                <span className="text-xs text-gray-400">16 Aug</span>
+                                <span className="bg-red-100 text-red-600 rounded-full px-1.5 py-0.5 text-xs font-medium">
+                                  3d
+                                </span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <div className="flex-1 bg-gray-200 rounded-full h-1.5">
+                                <div
+                                  className="bg-blue-500 h-1.5 rounded-full transition-all duration-300"
+                                  style={{ width: `${transaction.progress}%` }}
+                                />
+                              </div>
+                              <span className="text-sm text-gray-900 font-semibold">
+                                {transaction.progress}%
+                              </span>
+                            </div>
+                          </div>
+                        </td>
+                      )}
+                      {columns.upcomingTimeline && (
+                        <td className="py-4 px-4">
+                          <div className="space-y-1">
+                            <Badge className="inline-block bg-gray-100 text-gray-700  rounded-full text-sm">
+                              {transaction.upcomingTimeline}
+                            </Badge>
+                            <Badge className="inline-block bg-gray-100 text-gray-700  rounded-full text-sm">
+                              Purchase agreement
+                            </Badge>
+                          </div>
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <div className="text-gray-900 font-medium">
-              <span className="bg-gray-100 rounded-full px-2 py-0.5 text-[10.5px]">
-                Document review
-              </span>
-            </div>
-          </div>
-        )}
-
-        {columns.nextTimeline && (
-          <div className="space-y-1">
-            <div className="text-gray-900 font-medium">
-              <span className="bg-gray-100 rounded-full px-2 py-0.5 text-[10.5px]">
-                {t.nextTimeline}
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="flex-1 bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${t.progress}%` }}
-                />
-              </div>
-              <span className="text-[10.5px] text-gray-500 font-medium">
-                {t.progress}%
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-    </Link>
-  ))}
-</div>
-
+          )}
         </div>
-
-        {/* Mobile/Tablet */}
-        <div className="lg:hidden divide-y divide-gray-200">
-          {filteredTransactions.map((t) => (
-            <div key={t.id} className="px-6 py-4 hover:bg-gray-50 transition">
-              <div className="flex justify-between items-start mb-2">
-                <div className="flex-1">
-                  {columns.address && <div className="font-medium text-gray-900">{t.address}</div>}
-                  {columns.owner && (
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-sm text-gray-600">{t.owner}</span>
-                      <Badge className={`px-2 py-0.5 rounded text-xs font-medium ${roleClasses[t.ownerRole]}`}>
-                        {t.ownerRole}
-                      </Badge>
-                    </div>
-                  )}
-                </div>
-                {columns.status && (
-                  <Badge className={`px-3 py-1 rounded text-xs font-medium ${statusClasses[t.status]}`}>
-                    {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
-                  </Badge>
-                )}
-              </div>
-              
-              {columns.price && <div className="font-medium text-gray-900 mb-2">{t.price}</div>}
-              
-              <div className="space-y-2">
-                {columns.timeline && (
-                  <div className="space-y-1">
-                    <div className="text-sm text-gray-600">
-                      <span className="font-medium">Timeline:</span> <span className="bg-gray-100 rounded-full p-1">{t.timeline}</span>
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      <span className="bg-gray-100 rounded-full p-1">Document review</span>
-                    </div>
-                  </div>
-                )}
-                {columns.nextTimeline && (
-                  <div>
-                    <div className="text-sm font-medium text-gray-900"><span className="bg-gray-100 rounded-full p-1">{t.nextTimeline}</span></div>
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="flex-1 bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
-                          style={{ width: `${t.progress}%` }}
-                        />
-                      </div>
-                      <span className="text-xs text-gray-500 font-medium">{t.progress}%</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {filteredTransactions.length === 0 && (
-          <div className="text-center p-12">
-            <div className="text-4xl mb-4">📭</div>
-            <p className="text-lg font-medium">No transactions found</p>
-            <p className="text-gray-500">Try adjusting your filters to see more results.</p>
-          </div>
-        )}
       </div>
-    </section>
+    </div>
   );
 };
 
 export default TransactionsDashboard;
-
-
-
-
-
-  // <div className="divide-y divide-gray-200">
-  //           {filteredTransactions.map((t) => (
-  //             <Link  key={t.id} href={'/opportunites'}>
-  //             <div
-               
-  //               className="grid grid-cols-[2fr_1.5fr_1fr_1fr_1.5fr_2fr] gap-4 py-4 px-6 items-center text-sm hover:bg-gray-50 transition"
-  //             >
-  //               {columns.address && <div className="font-medium text-gray-900 cursor-pointer">{t.address}</div>}
-  //               {columns.owner && (
-  //                 <div className="flex items-center gap-2">
-  //                   <span className="font-medium text-gray-900">{t.owner}</span>
-  //                   <Badge className={`px-2 py-0.5   text-xs font-medium bg-gray-100 rounded-full p-1`}>
-  //                     {t.ownerRole}
-  //                   </Badge>
-  //                 </div>
-  //               )}
-  //               {columns.price && <div className="font-medium text-gray-900">{t.price}</div>}
-  //               {columns.status && (
-  //                 <Badge className={`px-3 py-1 rounded text-xs font-medium w-fit `}>
-  //                   {t.status.charAt(0).toUpperCase() + t.status.slice(1)}
-  //                 </Badge>
-  //               )}
-  //               {columns.timeline && (
-  //                 <div className="space-y-2">
-  //                   <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">{t.timeline}</span></div>
-  //                   <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">Document review</span></div>
-  //                 </div>
-  //               )}
-  //               {columns.nextTimeline && (
-  //                 <div className="space-y-2">
-  //                   <div className="text-gray-900 font-medium"><span className="bg-gray-100 rounded-full p-1">{t.nextTimeline}</span></div>
-  //                   <div className="flex items-center gap-2">
-  //                     <div className="flex-1 bg-gray-200 rounded-full h-2">
-  //                       <div 
-  //                         className="bg-blue-500 h-2 rounded-full transition-all duration-300" 
-  //                         style={{ width: `${t.progress}%` }}
-  //                       />
-  //                     </div>
-  //                     <span className="text-xs text-gray-500 font-medium">{t.progress}%</span>
-  //                   </div>
-  //                 </div>
-  //               )}
-  //             </div>
-  //             </Link>
-  //           ))}
-  //         </div>

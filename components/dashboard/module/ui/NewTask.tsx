@@ -17,7 +17,8 @@ import {
   ChevronUp,
   User,
   PenTool,
-  MessageSquare
+  MessageSquare,
+  UserPlus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -42,6 +43,7 @@ import { Label } from '@/components/ui/label';
 import DocumentsInterface from './DocumentInterface';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Task {
   id: string;
@@ -137,7 +139,8 @@ const TaskManagementUI = () => {
   const [taskForm, setTaskForm] = useState({
     taskName: '',
     description: '',
-    deadline: '',
+    deadline: '2025-08-06',
+    type: '',
     requireDocuments: false
   });
   const [newComment, setNewComment] = useState('');
@@ -224,6 +227,7 @@ const TaskManagementUI = () => {
       taskName: '',
       description: '',
       deadline: '',
+      type:'',
       requireDocuments: false
     });
   };
@@ -233,6 +237,7 @@ const TaskManagementUI = () => {
       setTaskForm({
         taskName: selectedTask.title,
         description: '',
+      type:'',
         deadline: selectedTask.dueDate || '',
         requireDocuments: false
       });
@@ -257,30 +262,31 @@ const TaskManagementUI = () => {
   };
 
   const TaskDialog = ({ isEdit = false }: { isEdit?: boolean }) => (
-    <DialogContent className="sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>{isEdit ? 'Edit Task' : 'New Task'}</DialogTitle>
-      </DialogHeader>
-      <div className="grid gap-4 py-4">
-        <div className="grid gap-2">
-          <Label htmlFor="taskName">Task Name</Label>
-          <Input
-            id="taskName"
-            value={taskForm.taskName}
-            onChange={(e) => setTaskForm({ ...taskForm, taskName: e.target.value })}
-            placeholder="Enter task name"
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            value={taskForm.description}
-            onChange={(e) => setTaskForm({ ...taskForm, description: e.target.value })}
-            placeholder="Enter task description"
-            rows={3}
-          />
-        </div>
+ <DialogContent className="sm:max-w-[425px]">
+    <DialogHeader>
+      <DialogTitle>{isEdit ? 'Edit Task' : 'New Task'}</DialogTitle>
+    </DialogHeader>
+    <div className="grid gap-4 py-4">
+      <div className="grid gap-2">
+        <Label htmlFor="taskName">Task Name</Label>
+        <Input
+          id="taskName"
+          value={taskForm.taskName}
+          onChange={(e) => setTaskForm({ ...taskForm, taskName: e.target.value })}
+          placeholder="Enter task name"
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          value={taskForm.description}
+          onChange={(e) => setTaskForm({ ...taskForm, description: e.target.value })}
+          placeholder="Enter task description"
+          rows={3}
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
         <div className="grid gap-2">
           <Label htmlFor="deadline">Deadline</Label>
           <Input
@@ -290,21 +296,25 @@ const TaskManagementUI = () => {
             onChange={(e) => setTaskForm({ ...taskForm, deadline: e.target.value })}
           />
         </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="requireDocuments"
-            checked={taskForm.requireDocuments}
-            onCheckedChange={(checked) => 
-              setTaskForm({ ...taskForm, requireDocuments: checked as boolean })
-            }
-          />
-          <Label htmlFor="requireDocuments">Required documents to be attached</Label>
+        <div className="grid gap-2">
+          <Label htmlFor="type">Type</Label>
+          <Select value={taskForm.type} onValueChange={(value) => setTaskForm({ ...taskForm, type: value })}>
+            <SelectTrigger className='w-full'>
+              <SelectValue placeholder="Select type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="requires-document">requires a document</SelectItem>
+              <SelectItem value="needs-checklist">needs a checklist</SelectItem>
+              <SelectItem value="uploads-document">uploads a document</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <Button onClick={handleSaveTask} className="w-full">
-          Save
-        </Button>
       </div>
-    </DialogContent>
+      <Button onClick={handleSaveTask} className="w-full">
+        Save
+      </Button>
+    </div>
+  </DialogContent>
   );
 
   return (
@@ -341,17 +351,14 @@ const TaskManagementUI = () => {
             
             {/* Task Header */}
             <div className="p-6 rounded-lg border-b border-gray-200 bg-gray-50">
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex items-start justify-between ">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <FileText className="w-5 h-5 text-gray-400" />
-                    <h2 className="text-xl font-semibold text-gray-900">{selectedTask.title}</h2>
-                    <Badge className={`text-xs font-medium ${getStatusColor(selectedTask.status)} flex items-center gap-1`}>
-                      {getStatusIcon(selectedTask.status)}
-                      {selectedTask.status}
-                    </Badge>
+                    <FileText className="w-5 h-5 text-gray-800" />
+                    <h2 className="text-lg font-medium text-gray-900">Purchase Agreement</h2>
+                   
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                  {/* <div className="flex items-center gap-4 text-sm text-gray-600">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       <span>Jan 15, 2025</span>
@@ -359,31 +366,30 @@ const TaskManagementUI = () => {
                         10:30 AM
                       </Badge>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex justify-between items-start w-full mt-2">
-                    <div className="text-sm text-gray-600">
-                      Assigned to: <span className="text-gray-900">Dylan Sanders</span>
+                    <div className="text-sm  text-gray-500">
+                      Assigned to: <span className="text-gray-900 mx-2">Dylan Sanders</span>
                     </div>
                   </div>
+                 
+                </div>
+                {/* Right side - Icon row */}
+                
+              </div>
+                <div className="flex items-center justify-between  ">
+                 
                     <div className="text-sm text-gray-600 ">
-                      Due: <span className="text-blue-600">Aug 27, 2025</span>
+                      Due: <span className="text-blue-600 font-medium">Aug 27, 2025</span>
+                    </div>
+                    <div className='flex items-center  mb-3'>
+
+                 <p className='text-blue-500 text-xs font-medium'>wating on others</p>
+                   <Button variant="ghost" size="sm" className=" h-8 w-8">
+                    <UserPlus className="w-4 h-4 text-gray-500" />
+                  </Button>
                     </div>
                 </div>
-                
-                {/* Right side - Icon row */}
-                <div className="flex items-center gap-2">
-                 
-                  <Button variant="ghost" size="sm" className=" text-sm h-8 w-8 uppercase text-gray-500">
-                   Signed
-                  </Button>
-                   <Button variant="ghost" size="sm" className="p-2 h-8 w-8">
-                    <User className="w-4 h-4 text-gray-500" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="p-2 h-8 w-8">
-                    <MessageSquare className="w-4 h-4 text-gray-500" />
-                  </Button>
-                </div>
-              </div>
 
               {/* Action Buttons - Column Layout */}
               <div className="grid grid-cols-3 gap-2">

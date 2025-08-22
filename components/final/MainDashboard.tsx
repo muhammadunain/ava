@@ -16,6 +16,7 @@ import {
 import DashboardStats from "../DashboardStacs";
 import Checksome from "./ChecksomeOnce";
 import TransactionsDashboard from "../dashboard/module/ui/FinalDashboard";
+import { AvaDashboard } from "../ava/AvaDashboardA";
 
 interface Task {
 	id: string;
@@ -204,7 +205,8 @@ export default function MainDashboard() {
 			<div className=" mx-auto">
 				{/* Header */}
 				{/* <DashboardStats /> */}
-				<TransactionsDashboard/>
+				{/* <TransactionsDashboard/> */}
+				<AvaDashboard/>
 
 				{/* Stats Cards */}
 

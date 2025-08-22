@@ -202,6 +202,15 @@ export const Sidebar = () => {
                 </div>
               </Link>
 
+ <Link href={'/pending'}>
+                <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
+                onClick={() => setActiveSection('pending')}>
+                  <div className="flex items-center space-x-3">
+                    <span className={`text-sm ${activeSection === 'pending' ? 'text-blue-500' : 'text-gray-600'}`}>Pending</span>
+                  </div>
+                  <ChevronRight size={16} className="text-gray-400" />
+                </div>
+              </Link>
               {/* Closed */}
               <Link href={'/closed'}>
                 <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
@@ -213,16 +222,25 @@ export const Sidebar = () => {
                 </div>
               </Link>
 
-              {/* Pending */}
-              <Link href={'/pending'}>
+               <Link href={'/'}>
                 <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
-                onClick={() => setActiveSection('pending')}>
+                onClick={() => setActiveSection('closed')}>
                   <div className="flex items-center space-x-3">
-                    <span className={`text-sm ${activeSection === 'pending' ? 'text-blue-500' : 'text-gray-600'}`}>Pending</span>
+                    <span className={`text-sm ${activeSection === 'closed' ? 'text-blue-500' : 'text-gray-600'}`}>Void</span>
                   </div>
                   <ChevronRight size={16} className="text-gray-400" />
                 </div>
               </Link>
+  <Link href={'/closed'}>
+                <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
+                onClick={() => setActiveSection('closed')}>
+                  <div className="flex items-center space-x-3">
+                    <span className={`text-sm ${activeSection === 'closed' ? 'text-blue-500' : 'text-gray-600'}`}>Expired</span>
+                  </div>
+                  <ChevronRight size={16} className="text-gray-400" />
+                </div>
+              </Link>
+
             </div>
 
             {/* Contacts */}

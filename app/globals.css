@@ -241,3 +241,17 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #2563eb; /* blue-600 */
 }
+@theme {
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-fade-up: fade-up 0.6s ease-out forwards;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

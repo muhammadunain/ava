@@ -13,6 +13,7 @@ import {
   Edit3
 } from 'lucide-react';
 import DeadLineDialog from './dialog/DeadLinesDialog';
+import AddToCalendarModal from './ava/Connectdialog';
 
 interface Task {
   id: string;
@@ -66,7 +67,11 @@ const DeadlinesUI: React.FC = () => {
               {tasks.length}
             </span>
           </h2>
+          <div className='flex gap-2 items-center '>
+
+        <AddToCalendarModal/>
         <DeadLineDialog/>
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -85,13 +90,13 @@ const DeadlinesUI: React.FC = () => {
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <button className="p-1 text-gray-400 hover:text-gray-600">
+                <button className="p-1 text-gray-900 hover:text-gray-600">
                   <FileText className="w-4 h-4" />
                 </button>
-                <button className="p-1 text-gray-400 hover:text-gray-600">
+                <button className="p-1 text-gray-900 hover:text-gray-600">
                   <Edit3 className="w-4 h-4" />
                 </button>
-                <button className="p-1 text-gray-400 hover:text-red-600">
+                <button className="p-1 text-red-500 hover:text-red-600">
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
@@ -142,7 +147,7 @@ const DeadlinesUI: React.FC = () => {
                   <button className="p-1 text-gray-400 hover:text-gray-600">
                     <Edit3 className="w-4 h-4" />
                   </button>
-                  <button className="p-1 text-gray-400 hover:text-red-600">
+                  <button className="p-1 text-red-500 hover:text-red-600">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>

@@ -829,9 +829,9 @@ const [selectedForm, setSelectedForm] = useState<string | null>(null);
     <div className="mt-8 bg-gray-100 border-2 border-dashed border-gray-200 rounded-md h-28 flex flex-col items-center justify-center text-center">
       <Newspaper className="w-6 h-6 text-gray-400 mb-1" />
       <div className="text-sm text-gray-500">
-        <SimpleUploadDialog />
-        <span className="mx-5">or</span>
         <DrawerSelectForm />
+        <span className="mx-5">or</span>
+        <SimpleUploadDialog />
       </div>
     </div>
   </div>

@@ -44,6 +44,7 @@ import DocumentsInterface from './DocumentInterface';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { TaskListSection } from '@/components/task/module/ActiveTask';
 
 interface Task {
   id: string;
@@ -320,9 +321,9 @@ const TaskManagementUI = () => {
   return (
     <div className="flex h-screen">
       {/* Left Sidebar - Tasks List */}
-      <div className="w-1/2 bg-white border-r border-gray-200">
+      <div className="w-[34rem] bg-white ">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
+        <div className="flex items-center justify-between p-5 mb-4 ">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-semibold">Tasks</h1>
             <Badge variant="secondary" className="bg-blue-500 text-white rounded-full px-2 py-1 text-xs">
@@ -332,11 +333,12 @@ const TaskManagementUI = () => {
         </div>
 
         {/* Timeline Tasks List */}
-        <DocumentsInterface/>
+        {/* <DocumentsInterface/> */}
+        <TaskListSection/>
       </div>
 
       {/* Right Panel - Task Details */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col mb-5">
         {selectedTask ? (
           <>
             <div className='flex flex-row items-end justify-end gap-2 p-4'>
@@ -382,11 +384,12 @@ const TaskManagementUI = () => {
                     <div className="text-sm text-gray-600 ">
                       Due: <span className="text-blue-600 font-medium">Aug 27, 2025</span>
                     </div>
-                    <div className='flex items-center  mb-3'>
+                    <div className='flex items-center gap-2 mb-3'>
 
-                 <p className='text-blue-500 text-xs font-medium'>wating on others</p>
+                 <p className='text-blue-500 text-xs font-medium '>wating on others</p>
                    <Button variant="ghost" size="sm" className=" h-8 w-8">
                     <UserPlus className="w-4 h-4 text-gray-500" />
+                    <MessageSquare className="w-4 h-4 text-gray-500" />
                   </Button>
                     </div>
                 </div>
@@ -399,11 +402,8 @@ const TaskManagementUI = () => {
                     <Download className="w-4 h-4 mr-2" />
                     Download
                   </Button>
-                  <Link href={'/pdfviewer'}>
-                    <Button className='cursor-pointer w-full' variant="outline" size="sm">
-                      E-Sign
-                    </Button>
-                  </Link>
+                
+                  
                 </div>
                 
                 {/* Column 2 */}
@@ -412,17 +412,12 @@ const TaskManagementUI = () => {
                     <Mail className="w-4 h-4 mr-2" />
                     Email
                   </Button>
-                  <Button className='cursor-pointer' variant="outline" size="sm">
-                    Unassign
-                  </Button>
+                 
                 </div>
                 
                 {/* Column 3 */}
                 <div className="flex flex-col gap-2">
-                  <Button onClick={handleEditTask} className='cursor-pointer' variant="outline" size="sm">
-                    <Edit3 className="w-4 h-4 mr-2" />
-                    Edit
-                  </Button>
+                 
                   <Button 
                     variant="outline" 
                     size="sm" 

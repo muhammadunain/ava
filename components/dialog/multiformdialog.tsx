@@ -15,7 +15,7 @@ export default function SimpleUploadDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={'ghost'} className="text-blue-600 underline cursor-pointer">Add more forms</Button>
+        <Button variant={'ghost'}className="text-gray-600 underline cursor-pointer">attach a document</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

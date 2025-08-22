@@ -22,6 +22,7 @@ import {
   MousePointer
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Wrapper from './wrapper';
 
 interface FormElement {
   id: string;
@@ -181,7 +182,6 @@ const router = useRouter()
 
   const handleSaveAction = async (action: string) => {
     setShowSaveMenu(false);
-    
     switch(action) {
       case 'esign':
         showToast('Preparing for E-sign...', 'info');
@@ -533,17 +533,21 @@ const router = useRouter()
             <span className="text-sm font-medium text-blue-700">?</span>
           </div>
 
-          <div className="relative">
+          <div  className="relative">
+
             <button
               onClick={() => setShowSaveMenu(!showSaveMenu)}
               className="bg-black text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-gray-800 transition-colors text-sm font-medium"
               disabled={isLoading}
-            >
+              >
+            <Wrapper >
               <Save className="w-4 h-4" />
+              
               <span>{isLoading ? 'Processing...' : 'save & close'}</span>
               <ChevronDown className="w-4 h-4" />
+                </Wrapper>
             </button>
-
+             
             {showSaveMenu && (
               <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50">
                 <button
@@ -665,6 +669,7 @@ const router = useRouter()
       {showSaveMenu && (
         <div
           className="fixed inset-0 z-40"
+          
           onClick={() => setShowSaveMenu(false)}
         />
       )}

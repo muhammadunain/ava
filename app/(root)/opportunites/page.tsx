@@ -1,35 +1,34 @@
 'use client'
+
 import ProjectManagementUI from '@/components/final/Transaction'
 import { Button } from '@/components/ui/button';
 import { CheckCircle, X } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { toast } from 'sonner';
 
-const page = () => {
-   const searchParams = useSearchParams();
+function PageContent() {
+  const searchParams = useSearchParams();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
   useEffect(() => {
-    // Check if coming from successful onboarding
     const success = searchParams.get('success');
     if (success === 'true') {
       setShowSuccessAlert(true);
-      
-      // Auto-hide after 5 seconds
       const timer = setTimeout(() => {
         setShowSuccessAlert(false);
       }, 5000);
-
       return () => clearTimeout(timer);
     }
   }, [searchParams]);
+
   const handleDismissAlert = () => {
     setShowSuccessAlert(false);
   };
 
   return (
     <>
-    {showSuccessAlert && (
+      {showSuccessAlert && (
         <div className="fixed top-4 right-4 z-50 max-w-md">
           <div className="bg-white border border-green-200 rounded-lg shadow-lg p-4 animate-in slide-in-from-top-2">
             <div className="flex items-start gap-3">
@@ -68,10 +67,15 @@ const page = () => {
           </div>
         </div>
       )}
-    <ProjectManagementUI/>
-      
+      <ProjectManagementUI />
     </>
   )
 }
 
-export default page
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PageContent />
+    </Suspense>
+  )
+}

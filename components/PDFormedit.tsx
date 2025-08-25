@@ -533,55 +533,58 @@ const router = useRouter()
             <span className="text-sm font-medium text-blue-700">?</span>
           </div>
 
-          <div  className="relative">
+          <div className="relative inline-block text-left">
+  <button
+    onClick={() => setShowSaveMenu(!showSaveMenu)}
+    className="bg-black text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-gray-800 transition-colors text-sm font-medium"
+    disabled={isLoading}
+  >
+    <Wrapper>
+      <div className="flex items-center gap-2">
+        <Save className="w-4 h-4" />
+        <span>{isLoading ? "Processing..." : "Save & Close"}</span>
+        <ChevronDown className="w-4 h-4" />
+      </div>
+    </Wrapper>
+  </button>
 
-            <button
-              onClick={() => setShowSaveMenu(!showSaveMenu)}
-              className="bg-black text-white px-4 py-2 rounded-md flex items-center space-x-2 hover:bg-gray-800 transition-colors text-sm font-medium"
-              disabled={isLoading}
-              >
-            <Wrapper >
-              <Save className="w-4 h-4" />
-              
-              <span>{isLoading ? 'Processing...' : 'save & close'}</span>
-              <ChevronDown className="w-4 h-4" />
-                </Wrapper>
-            </button>
-             
-            {showSaveMenu && (
-              <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-1 z-50">
-                <button
-                  onClick={() => handleSaveAction('esign')}
-                  className="w-full text-left px-4 py-2 cursor-pointer hover:bg-gray-50 flex items-center space-x-3 transition-colors text-sm"
-                >
-                  <Send className="w-4 h-4 text-gray-500" />
-                  <span>Send for eSign</span>
-                </button>
-                <button
-                  onClick={() => handleSaveAction('download')}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center space-x-3 transition-colors text-sm"
-                >
-                  <Download className="w-4 h-4 text-gray-500" />
-                  <span>Download</span>
-                </button>
-                <button
-                  onClick={() => handleSaveAction('print')}
-                  className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center space-x-3 transition-colors text-sm"
-                >
-                  <Printer className="w-4 h-4 text-gray-500" />
-                  <span>Print</span>
-                </button>
-                <hr className="my-1 border-gray-200" />
-                <button
-                  onClick={() => handleSaveAction('discard')}
-                  className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 flex items-center space-x-3 transition-colors text-sm"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  <span>Discard Changes</span>
-                </button>
-              </div>
-            )}
-          </div>
+  {showSaveMenu && (
+    <div className="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+      <button
+        onClick={() => handleSaveAction("esign")}
+        className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors"
+      >
+        <Send className="w-4 h-4 text-gray-500" />
+        <span>Send for eSign</span>
+      </button>
+      <button
+        onClick={() => handleSaveAction("download")}
+        className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors"
+      >
+        <Download className="w-4 h-4 text-gray-500" />
+        <span>Download</span>
+      </button>
+      <button
+        onClick={() => handleSaveAction("print")}
+        className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm hover:bg-gray-50 transition-colors"
+      >
+        <Printer className="w-4 h-4 text-gray-500" />
+        <span>Print</span>
+      </button>
+
+      <hr className="my-1 border-gray-200" />
+
+      <button
+        onClick={() => handleSaveAction("discard")}
+        className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 transition-colors"
+      >
+        <Trash2 className="w-4 h-4" />
+        <span>Discard Changes</span>
+      </button>
+    </div>
+  )}
+</div>
+
         </div>
       </div>
 

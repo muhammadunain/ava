@@ -201,7 +201,7 @@ export default function MainDashboard() {
 	};
 
 	return (
-		<div className="min-h-screen  p-6">
+		<div className="min-h-screen  my-4">
 			<div className=" mx-auto">
 				{/* Header */}
 				{/* <DashboardStats /> */}

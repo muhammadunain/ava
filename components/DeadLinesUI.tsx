@@ -23,6 +23,7 @@ interface Task {
 }
 
 const DeadlinesUI: React.FC = () => {
+  const [check, setCheck] = useState('')
   const [tasks, setTasks] = useState<Task[]>([
     { id: '1', title: 'Association Application Deadline', dueDate: 'Saturday July 26, 2025', completed: false },
     { id: '2', title: 'Effective Date', dueDate: 'Saturday July 26, 2025', completed: false },
@@ -80,9 +81,9 @@ const DeadlinesUI: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <input
                   type="checkbox"
-                  checked={task.completed}
-                  onChange={() => toggleTask(task.id, false)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                 
+                 onChange={(e)=>e.target.value}
+                  className="w-4 h-4 text-slate-800 border-gray-300 rounded focus:ring-slate-500"
                 />
                 <div>
                   <div className="text-sm font-medium text-gray-900">{task.title}</div>

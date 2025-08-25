@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { Check, FileText, Users, ChevronRight, SlidersHorizontal, MessageSquare } from 'lucide-react';
+import SendTo from './dialog/Sendto';
 
 const DocumentList = () => {
   const [selectedDocs, setSelectedDocs] = useState(new Set());
@@ -146,14 +147,14 @@ const DocumentList = () => {
         </div>
         
         {/* Filter/Sort Icon */}
-        <div className="relative">
+        <div className="flex items-center justify-center">
+          <SendTo/>
           <button 
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             onClick={() => setShowFilterDropdown(!showFilterDropdown)}
           >
             <SlidersHorizontal className="w-5 h-5 text-blue-500" />
           </button>
-          
           {/* Filter Dropdown */}
           {showFilterDropdown && (
             <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
@@ -251,7 +252,7 @@ const DocumentList = () => {
         {filteredDocuments.map((doc) => (
           <div key={doc.id} className="flex items-center px-4 py-3 hover:bg-gray-50">
             {/* Checkbox */}
-            {/* <div className="mr-4">
+            <div className="mr-4">
               <div className="relative">
                 <input
                   type="checkbox"
@@ -270,7 +271,7 @@ const DocumentList = () => {
                   )}
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* Date */}
             <div className="text-xs text-gray-500 w-14 flex-shrink-0">

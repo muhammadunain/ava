@@ -7,6 +7,8 @@ import DeadLinesMain from "./deadlines";
 import TransactionTabs from "./TransactionDetails";
 import DocumentTimelineUI from "./PlanYouWorkflow";
 import TaskListUI from "./LetsCreateYour";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner"; // or your preferred toast library
 
 export const OnboardingSteps: React.FC<OnboardingStepProps> = ({
   currentStep,
@@ -16,6 +18,8 @@ export const OnboardingSteps: React.FC<OnboardingStepProps> = ({
   expandedAccordion,
   onToggleAccordion,
 }) => {
+  const router = useRouter();
+
   const steps = [
     {
       icon: Calendar,
@@ -23,7 +27,7 @@ export const OnboardingSteps: React.FC<OnboardingStepProps> = ({
       description: 'Review and adjust your transaction timeline and key milestones',
       color: 'slate',
       component: () => <DeadLinesMain />,
-      nextButtonText: "View Transaction Summary", // ✅ Custom button text for this step
+      nextButtonText: "View Transaction Summary",
     },
     {
       icon: CheckCircle,
@@ -31,26 +35,22 @@ export const OnboardingSteps: React.FC<OnboardingStepProps> = ({
       description: 'Assign tasks to team members and set up notifications',
       color: 'slate',
       component: () => <TransactionTabs />,
-      nextButtonText: "Plan Your Workflow", // ✅ Custom button text for this step
+      nextButtonText: "Plan Your Workflow",
     },
     {
       icon: User,
-      title: 'Contact Setup',
-      description: 'Set up contact information and communication preferences',
+      title: 'Workflow Planning',
+      description: 'Plan your workflow and document timeline',
       color: 'slate',
-      component: () => (
-        <DocumentTimelineUI/>
-      ),
-      nextButtonText: "Let's Create Your Task",
+      component: () => <DocumentTimelineUI/>,
+      nextButtonText: "Let's Create Your Tasks",
     },
     {
       icon: User,
-      title: 'Contact Setup',
-      description: 'Set up contact information and communication preferences',
+      title: 'Task Creation',
+      description: 'Create and organize your task list',
       color: 'slate',
-      component: () => (
-        <TaskListUI/>
-      ),
+      component: () => <TaskListUI/>,
       nextButtonText: "Open Transaction File",
     },
     {
@@ -59,14 +59,63 @@ export const OnboardingSteps: React.FC<OnboardingStepProps> = ({
       description: 'Review all information and complete the transaction setup',
       color: 'slate',
       component: () => (
-        <div>
-          <h3 className="text-lg font-semibold mb-2">Final Check</h3>
-          <p className="text-sm text-gray-700">Review and confirm all the details before submission.</p>
+        <div className="text-center py-12">
+          <div className="mb-6">
+            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+            <h3 className="text-2xl font-semibold mb-2 text-gray-900">Almost Done!</h3>
+            <p className="text-gray-600 max-w-md mx-auto">
+              Your transaction has been set up successfully. Review all the details and complete the setup to access your transaction dashboard.
+            </p>
+          </div>
+          
+          <div className="bg-gray-50 rounded-lg p-6 max-w-md mx-auto">
+            <h4 className="font-medium text-gray-900 mb-3">What happens next:</h4>
+            <ul className="text-sm text-gray-600 space-y-2 text-left">
+              <li className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                Access your transaction dashboard
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                Track deadlines and milestones
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                Manage tasks and communications
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                Generate reports and documents
+              </li>
+            </ul>
+          </div>
         </div>
       ),
       nextButtonText: "Complete Setup",
     },
   ];
+
+  const handleComplete = async () => {
+    try {
+      // Call the original onComplete function to close modal/cleanup
+      onComplete();
+      
+      // Show success toast
+      toast.success("Transaction setup completed successfully!", {
+        description: "Redirecting to your opportunities dashboard...",
+        duration: 2000,
+      });
+      
+      // Small delay to show the toast, then navigate
+      setTimeout(() => {
+        router.push('/opportunites?success=true');
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Error completing setup:', error);
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
 
   if (currentStep < 2 || currentStep > 5) return null;
 
@@ -91,7 +140,7 @@ export const OnboardingSteps: React.FC<OnboardingStepProps> = ({
 
           <Button
             onClick={() =>
-              currentStep === 5 ? onComplete() : onStepChange(currentStep + 1)
+              currentStep === 5 ? handleComplete() : onStepChange(currentStep + 1)
             }
             className={`bg-${step.color}-800 hover:bg-${step.color}-700 cursor-pointer text-white group transition-all duration-200`}
           >

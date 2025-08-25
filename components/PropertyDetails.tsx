@@ -1,194 +1,167 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export function PropertyDetailsSection() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-12 bg-white p-8">
       {/* Address Section */}
       <div>
-        <div className="flex flex-row items-center justify-between py-4">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
-            <div className="w-2 h-2 bg-primary rounded-full"></div>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-light text-black flex items-center gap-3">
+            <div className="w-1 h-8 bg-blue-500"></div>
             Address
-          </h3>
-          <Button variant="default" size="sm">
+          </h2>
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md font-normal">
             Generate Summary
           </Button>
         </div>
-        <CardContent className="pt-0">
-          <div className="grid grid-cols-5 gap-8">
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Street Address</label>
-              <p className="text-sm">410 FLAGSHIP DR # 501</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">City</label>
-              <p className="text-sm">Naples</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">State</label>
-              <p className="text-sm">FL</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Zip</label>
-              <p className="text-sm">34108</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Country</label>
-              <p className="text-sm">United States</p>
-            </div>
-          </div>
-        </CardContent>
+        
+        <div className="overflow-hidden border border-gray-200 rounded-lg">
+          <table className="w-full">
+            <tbody className="divide-y divide-gray-100">
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/5">Street Address</td>
+                <td className="px-6 py-4 text-sm text-black">410 FLAGSHIP DR # 501</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/5">City</td>
+                <td className="px-6 py-4 text-sm text-black">Naples</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">State</td>
+                <td className="px-6 py-4 text-sm text-black">FL</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Zip Code</td>
+                <td className="px-6 py-4 text-sm text-black">34108</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Country</td>
+                <td className="px-6 py-4 text-sm text-black">United States</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Property Section */}
       <div>
-        <div className="py-4">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
-            <div className="w-2 h-2 bg-primary rounded-full"></div>
-            Property
-          </h3>
+        <div className="flex items-center mb-6">
+          <h2 className="text-2xl font-light text-black flex items-center gap-3">
+            <div className="w-1 h-8 bg-blue-500"></div>
+            Property Details
+          </h2>
         </div>
-        <CardContent className="pt-0">
-          <div className="grid grid-cols-5 gap-8">
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Boat Slip Included</label>
-              <p className="text-sm">#45</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Condominium Unit Number</label>
-              <p className="text-sm">105</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">County</label>
-              <p className="text-sm">Collier</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Garage Number Included</label>
-              <p className="text-sm">#153</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Legal Description of Property</label>
-              <p className="text-sm">REGATTA AT VANDERBILT BEACH II A CONDOMINIUM UNIT 105 Collier</p>
-            </div>
-          </div>
-        </CardContent>
+        
+        <div className="overflow-hidden border border-gray-200 rounded-lg">
+          <table className="w-full">
+            <tbody className="divide-y divide-gray-100">
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/4">Boat Slip</td>
+                <td className="px-6 py-4 text-sm text-black">#45</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/4">Unit Number</td>
+                <td className="px-6 py-4 text-sm text-black">105</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">County</td>
+                <td className="px-6 py-4 text-sm text-black">Collier</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Garage</td>
+                <td className="px-6 py-4 text-sm text-black">#153</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Legal Description</td>
+                <td className="px-6 py-4 text-sm text-black" >REGATTA AT VANDERBILT BEACH II A CONDOMINIUM UNIT 105 Collier</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Parties Section */}
       <div>
-        <div className="py-4">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
-            <div className="w-2 h-2 bg-primary rounded-full"></div>
-            Parties
-          </h3>
+        <div className="flex items-center mb-6">
+          <h2 className="text-2xl font-light text-black flex items-center gap-3">
+            <div className="w-1 h-8 bg-blue-500"></div>
+            Transaction Parties
+          </h2>
         </div>
-        <CardContent className="pt-0">
-          <div className="grid grid-cols-6 gap-8">
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Property Address</label>
-              <p className="text-sm">410 FLAGSHIP DR # 501, Naples FL 34108</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Seller</label>
-              <p className="text-sm">Jay Christopher Wagner</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Buyer</label>
-              <p className="text-sm">Jeff Eckert</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Escrow Officer</label>
-              <p className="text-sm">Josh Rudnick<br />(239) 325-4070<br />9045 Strada Stell Ct #400,<br />Naples, FL 34109</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Buyer</label>
-              <p className="text-sm">Kimberly Eckert</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Seller Brokerage</label>
-              <p className="text-sm">Naples Homes</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-5 gap-8 mt-6">
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Buyer Brokerage</label>
-              <p className="text-sm">Naples Homes</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Buyer Agent</label>
-              <p className="text-sm">Ryan Schwartz</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Seller Agent</label>
-              <p className="text-sm">Ryan Schwartz</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Seller</label>
-              <p className="text-sm">Shonda Lynn Wagner</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Buyer Address/Entity</label>
-              <p className="text-sm">Turnkey<br />Turnkey</p>
-            </div>
-          </div>
-        </CardContent>
+        
+        <div className="overflow-hidden border border-gray-200 rounded-lg">
+          <table className="w-full">
+            <tbody className="divide-y divide-gray-100">
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/4">Property Address</td>
+                <td className="px-6 py-4 text-sm text-black" >410 FLAGSHIP DR # 501, Naples FL 34108</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Primary Seller</td>
+                <td className="px-6 py-4 text-sm text-black">Jay Christopher Wagner</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/4">Additional Seller</td>
+                <td className="px-6 py-4 text-sm text-black">Shonda Lynn Wagner</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Primary Buyer</td>
+                <td className="px-6 py-4 text-sm text-black">Jeff Eckert</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Additional Buyer</td>
+                <td className="px-6 py-4 text-sm text-black">Kimberly Eckert</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Buyer Entity</td>
+                <td className="px-6 py-4 text-sm text-black">Turnkey</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Brokerage</td>
+                <td className="px-6 py-4 text-sm text-black">Naples Homes</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Buyer Agent</td>
+                <td className="px-6 py-4 text-sm text-black">Ryan Schwartz</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Seller Agent</td>
+                <td className="px-6 py-4 text-sm text-black">Ryan Schwartz</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Escrow Officer</td>
+                <td className="px-6 py-4 text-sm text-black" >
+                  <div>Josh Rudnick</div>
+                  <div className="text-blue-500 mt-1">(239) 325-4070</div>
+                  <div className="text-gray-600 mt-1">9045 Strada Stell Ct #400, Naples, FL 34109</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Financing Section */}
       <div>
-        <div className="py-4">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
-            <div className="w-2 h-2 bg-primary rounded-full"></div>
-            Financing
-          </h3>
+        <div className="flex items-center mb-6">
+          <h2 className="text-2xl font-light text-black flex items-center gap-3">
+            <div className="w-1 h-8 bg-blue-500"></div>
+            Financing Details
+          </h2>
         </div>
-        <CardContent className="pt-0">
-          <div className="grid grid-cols-6 gap-8">
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Additional Deposit</label>
-              <p className="text-sm">$135,000.00</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Additional Deposit Due After Effective Date</label>
-              <p className="text-sm">15 days</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Balance Due at Closing</label>
-              <p className="text-sm">$1,440,000.00</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Initial Deposit</label>
-              <p className="text-sm">$25,000.00</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Initial Deposit Due After Effective Date</label>
-              <p className="text-sm">3 days</p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Loan Type</label>
-              <p className="text-sm">Unknown</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-4 gap-8 mt-6">
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Other Proceeds</label>
-              <p className="text-sm"></p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Proceeds of Mortgage, if</label>
-              <p className="text-sm"></p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Proceeds of Seller</label>
-              <p className="text-sm"></p>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground">Purchase Price</label>
-              <p className="text-sm"></p>
-            </div>
-          </div>
-        </CardContent>
+        
+        <div className="overflow-hidden border border-gray-200 rounded-lg">
+          <table className="w-full">
+            <tbody className="divide-y divide-gray-100">
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/4">Initial Deposit</td>
+                <td className="px-6 py-4 text-sm text-black font-medium">$25,000.00</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30 w-1/4">Due Within</td>
+                <td className="px-6 py-4 text-sm text-black">3 days</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Additional Deposit</td>
+                <td className="px-6 py-4 text-sm text-black font-medium">$135,000.00</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Due Within</td>
+                <td className="px-6 py-4 text-sm text-black">15 days</td>
+              </tr>
+              <tr className="hover:bg-gray-50/50 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Balance Due at Closing</td>
+                <td className="px-6 py-4 text-sm text-blue-600 font-medium">$1,440,000.00</td>
+                <td className="px-6 py-4 text-sm font-medium text-gray-600 bg-gray-50/30">Loan Type</td>
+                <td className="px-6 py-4 text-sm text-gray-500 italic">Unknown</td>
+              </tr>
+              <tr className="bg-blue-50/50 hover:bg-blue-50/70 transition-colors">
+                <td className="px-6 py-4 text-sm font-medium text-gray-700 bg-blue-100/50">Total Purchase Price</td>
+                <td className="px-6 py-4 text-lg font-medium text-blue-600" >$1,600,000.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

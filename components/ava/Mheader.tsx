@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import DropFilter from "../dialog/dropfilter";
 import { Checkbox } from "../ui/checkbox";
-
 interface HeaderSectionProps {
   onStatusFilter: (status: string | null) => void;
   onTypeFilter: (type: string | null) => void;

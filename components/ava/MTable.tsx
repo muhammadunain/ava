@@ -2,6 +2,7 @@ import { ChevronUpIcon } from "lucide-react";
 import React, { JSX } from "react";
 import { Badge } from "@/components/ui/badge";
 import { BiSort } from "react-icons/bi";
+import Link from "next/link";
 
 const transactionData = [
 	{
@@ -207,6 +208,7 @@ export const MTable = ({
 	});
 	return (
 		<section className="w-full translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
+			<Link href={'/opportunites'}>
 			<div className="w-full bg-white rounded-lg overflow-hidden">
 				<div
 					className="grid gap-4 px-6  border-b border-gray-200"
@@ -396,6 +398,7 @@ export const MTable = ({
 					))}
 				</div>
 			</div>
+			</Link>
 		</section>
 	);
 };

@@ -211,7 +211,7 @@ export const MTable = ({
 			<Link href={'/opportunites'}>
 			<div className="w-full bg-white rounded-lg overflow-hidden">
 				<div
-					className="grid gap-4 px-6  border-b border-gray-200"
+					className="grid gap-4 px-6 pb-2 border-b border-gray-200"
 					style={{
 						gridTemplateColumns: [
 							"200px", // Address

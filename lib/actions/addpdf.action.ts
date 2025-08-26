@@ -70,71 +70,58 @@ export const uploadPDFMain = async (formData: FormData) => {
     const truncatedText = pdfText.length > maxTextLength 
       ? pdfText.substring(0, maxTextLength) + "\n\n[Document truncated due to length...]"
       : pdfText;
+const prompt = `
+You are Ava, an expert **real estate contract intelligence assistant**. 
+Analyze this PDF thoroughly and extract **comprehensive structured JSON data**. 
+Your output must always be valid JSON (no markdown, no explanations, no text outside JSON).  
 
-    const prompt = `
-You are Ava, an expert document intelligence assistant for real estate contracts. Your job is to deeply analyze the content of this PDF and extract structured, complete, and clean JSON data — only based on what is explicitly written in the document.
-
-CRITICAL: You must return ONLY valid JSON. No explanations, no markdown, no code blocks, no additional text.
-
-Output exactly in this JSON format:
-
+### OUTPUT SCHEMA:
 {
+  "propertyDetails": {
+    "datesAndDeadlines": [
+      { "itemNo": 1, "reference": "string", "event": "string", "deadline": "YYYY-MM-DD or 'TBD'" }
+    ]
+  },
+  "tasks": [
+    { "id": 1, "title": "string", "dueDate": "YYYY-MM-DD or 'TBD'", "relatedTo": "string" }
+  ],
   "accordion": [
     { "question": "string", "answer": "string", "page": 1 }
   ],
   "tables": [
-    {
-      "title": "string",
-      "headers": ["string"],
-      "rows": [["string"]],
-      "page": 1
-    }
+    { "title": "string", "headers": ["string"], "rows": [["string"]], "page": 1 }
   ],
   "timeline": [
-    {
-      "milestone": "string",
-      "date": "YYYY-MM-DD",
-      "description": "string",
-      "page": 1
-    }
+    { "milestone": "string", "date": "YYYY-MM-DD or 'TBD'", "description": "string", "page": 1 }
   ],
-  "summary": "Short summary of the document in plain, simple language — 3 to 5 sentences.",
-  "tasks": [
-    {
-      "title": "string",
-      "dueDate": "YYYY-MM-DD",
-      "priority": "High",
-      "linkedMilestone": "string",
-      "page": 1
-    }
-  ],
+  "summary": "Detailed plain-language summary in 5-7 sentences covering key terms, responsibilities, and parties.",
   "deadlines": [
-    {
-      "name": "string",
-      "deadline": "YYYY-MM-DD",
-      "relatedTask": "string",
-      "page": 1
-    }
+    { "name": "string", "deadline": "YYYY-MM-DD or 'TBD'", "relatedTask": "string", "page": 1 }
   ]
 }
 
-Guidelines:
-- Include deadlines like offer acceptance, inspection period, closing, financing contingency, etc.
-- If a date is missing, shown as blank, or says "{Insert Date}" or similar — use "TBD" as its value.
-- Do not skip timeline or deadline entries if a date is missing.
-- Prefer precise language from the document. Do not paraphrase legal terms.
-- Include page numbers if they can be determined from the context.
-- Group all items correctly under their schema fields.
-- Return an empty array for any section not found.
-- RETURN ONLY THE JSON OBJECT, NOTHING ELSE.
+### CRITICAL INSTRUCTIONS:
+- Always **return a valid JSON object only**. No markdown, no text before/after.
+- **First**, fill \`propertyDetails.datesAndDeadlines\` as a structured table-style list (Item No., Reference, Event, Deadline).
+- **Second**, derive actionable \`tasks\` from each deadline (buyer, seller, agent, lender, inspector, etc.).
+- After that, fill the other sections (\`accordion\`, \`tables\`, \`timeline\`, \`summary\`, \`deadlines\`).
+- Always include **all key obligations, deadlines, and milestones** — offer acceptance, inspection, financing, closing, contingency periods, lease/rent deadlines, signatures, etc.
+- Use **TBD** if a date is blank, missing, or has placeholders.
+- For timeline: include **all chronological events** (not just deadlines, but also notices, approvals, payments, contingencies).
+- For tasks: assign **priority levels** (High | Medium | Low) when appropriate.
+- For summary: provide a **clear, human-readable overview**: parties, property, financial terms, major deadlines, and risk points.
+- Add page numbers wherever possible.
+- If a section has no data, return an empty array.
 
-Document content:
+### DOCUMENT CONTENT:
 ${truncatedText}
 `;
 
+
+
     // Use more conservative generation parameters
     const response = await generateText({
-      model: google('gemini-2.0-flash'),
+      model: google('gemini-2.5-flash'),
       prompt,
       temperature: 0.1, // Lower temperature for more consistent output
     });

@@ -7,15 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { completedTasks, taskData } from "@/constants/task";
 import React, { JSX, useState } from "react";
 
 export const TaskListSection = (): JSX.Element => {
 	const [Check, setupCheck] = useState("");
 	return (
-		<div className="w-full h-full overflow-hidden  translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
-			<ScrollArea className="h-full">
+		<div className="w-full h-full   translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
 				<div className="space-y-4 p-1">
 					{taskData.map((task, index) => (
 						<Card
@@ -162,7 +160,6 @@ export const TaskListSection = (): JSX.Element => {
 						</Card>
 					))}
 				</div>
-			</ScrollArea>
 		</div>
 	);
 };

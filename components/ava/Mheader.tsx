@@ -36,7 +36,7 @@ export const MHeader = ({
   {/* Left Section */}
   <div className="flex items-center gap-2">
     <h1 className="font-semibold text-zinc-950 text-xl [font-family:'Geist',Helvetica] whitespace-nowrap">
-      React Transactions
+      Recent Transactions
     </h1>
     <Badge className="px-2 py-0.5 bg-[#2574eb] rounded-full hover:bg-[#2574eb]/90 flex items-center justify-center min-w-[20px] h-5">
       <span className="font-semibold text-white text-[10px] leading-none">
@@ -46,7 +46,7 @@ export const MHeader = ({
   </div>
 
   {/* Right Section */}
-  <div className="flex items-center gap-3 animate-fade-in opacity-0 [--animation-delay:200ms]">
+  <div className="flex items-center gap-3  animate-fade-in opacity-0 [--animation-delay:200ms]">
     {/* Status Button */}
   <DropFilter/>
 

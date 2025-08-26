@@ -21,10 +21,9 @@ const SendTo = () => {
       {/* Main Send Action */}
       <Button 
         variant="outline" 
-        onClick={() => handleClick("Send")} 
         className="rounded-r-none"
       >
-        Send
+        Actions
       </Button>
 
       {/* Dropdown Actions */}
@@ -39,7 +38,9 @@ const SendTo = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
-          <DropdownMenuItem onClick={() => handleClick("E-Sign")}>
+          <DropdownMenuItem onClick={() => handleClick("Share")}>
+           Share
+          </DropdownMenuItem> <DropdownMenuItem onClick={() => handleClick("E-Sign")}>
             E-Sign
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => handleClick("Download")}>

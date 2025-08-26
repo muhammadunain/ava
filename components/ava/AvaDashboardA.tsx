@@ -64,14 +64,14 @@ export const AvaDashboard = (): JSX.Element => {
   };
   return (
     <div
-      className="bg-white min-h-screen w-full opacity-0 animate-fade-in"
+      className="bg-white my-10 min-h-screen w-full opacity-0 animate-fade-in"
       data-model-id="1267:794"
     >
       <div className="flex h-screen">
         {/* Main Content Area */}
         <main className="flex flex-col">
           {/* Header Section with Greeting */}
-          <div className="px-6 pt-4 pb-2 opacity-0 animate-fade-up [--animation-delay:600ms]">
+          <div className="  opacity-0  animate-fade-up [--animation-delay:600ms]">
             <HeaderSection />
           </div>
 
@@ -83,7 +83,7 @@ export const AvaDashboard = (): JSX.Element => {
           </div>
 
           {/* Tab Navigation */}
-          <div className="px-6 pb-3 opacity-0 animate-fade-up [--animation-delay:800ms]">
+          <div className=" pb-3 opacity-0 animate-fade-up [--animation-delay:800ms]">
             <MainContentSection 
               onTabChange={handleTabChange}
               activeTab={activeTab}
@@ -91,7 +91,7 @@ export const AvaDashboard = (): JSX.Element => {
           </div>
 
           {/* Recent Transactions Card */}
-          <div className="flex-1 px-6">
+          <div className="flex-1 ">
             <Card className="bg-white w-full rounded-lg border border-zinc-200">
               {/* Header Section */}
               <MHeader

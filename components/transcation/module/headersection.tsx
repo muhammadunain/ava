@@ -33,14 +33,14 @@ export const HeaderSectionFinal = ({
 }: HeaderSectionProps): JSX.Element => {
 
   return (
-    <header className="flex w-full p-2 items-center justify-between px-6 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:0ms]">
+    <header className="flex w-full p-2 items-center justify-between px-2 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:0ms]">
       {/* Left Section */}
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <h1 className="font-semibold text-zinc-950 text-xl [font-family:'Geist',Helvetica] whitespace-nowrap">
             Transactions
           </h1>
-          <Badge className="px-2 py-0.5 bg-[#2574eb] rounded-full hover:bg-[#2574eb]/90">
+          <Badge className=" py-0.5 bg-[#2574eb] rounded-full hover:bg-[#2574eb]/90">
             <span className="font-semibold text-white text-[10px] leading-[15px]">
               9
             </span>

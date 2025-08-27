@@ -6,8 +6,8 @@ import MainDashboard from "@/components/final/MainDashboard";
 
 export default function Home() {
   return (
- <>
+ <div >
 <MainDashboard/>
- </>
+ </div>
   );
 }

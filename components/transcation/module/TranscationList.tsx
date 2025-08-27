@@ -1,6 +1,8 @@
 import { ChevronUpIcon } from "lucide-react";
 import React, { JSX } from "react";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { BiSort } from "react-icons/bi";
 
 const transactionData = [
   {
@@ -200,191 +202,198 @@ export const TransactionsListSection = ({ statusFilter, typeFilter, visibleColum
     return statusMatch && typeMatch;
   });
   return (
-    <section className="w-full translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
-      <div className="w-full bg-white rounded-lg overflow-hidden">
-        <div className="grid gap-4 px-6  border-b border-gray-200" style={{
-          gridTemplateColumns: [
-            '200px', // Address
-            '150px', // Representing
-            visibleColumns.price ? '100px' : '',
-            visibleColumns.status ? '80px' : '',
-            visibleColumns.currentTimeline ? '200px' : '',
-            visibleColumns.upcomingTimelines ? '180px' : '',
-            visibleColumns.closingDate ? '120px' : ''
-          ].filter(Boolean).join(' ')
-        }}>
-          <div className="flex items-center gap-1">
-            <span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
-              Address
-            </span>
-            <ChevronUpIcon className="w-3.5 h-3.5 text-zinc-500" />
-          </div>
+   <section className="w-full translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:200ms]">
+			<Link href={'/opportunites'}>
+			<div className="w-full bg-white rounded-lg overflow-hidden">
+				<div
+					className="grid gap-4 px-6 pb-2 border-b border-gray-200"
+					style={{
+						gridTemplateColumns: [
+							"200px", // Address
+							"150px", // Representing
+							visibleColumns.price ? "100px" : "",
+							visibleColumns.status ? "80px" : "",
+							visibleColumns.currentTimeline ? "200px" : "",
+							visibleColumns.upcomingTimelines ? "180px" : "",
+							visibleColumns.closingDate ? "120px" : "",
+						]
+							.filter(Boolean)
+							.join(" "),
+					}}>
+					<div className="flex items-center gap-1">
+						<span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
+							Address
+						</span>
+						<BiSort className="w-3.5 h-3.5 text-zinc-500" />
+					</div>
 
-          <div className="flex items-center gap-1">
-            <span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
-              Representing
-            </span>
-            <ChevronUpIcon className="w-3.5 h-3.5 text-zinc-500" />
-          </div>
+					<div className="flex items-center gap-1">
+						<span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
+							Representing
+						</span>
+						<BiSort className="w-3.5 h-3.5 text-zinc-500" />
+					</div>
 
-          {visibleColumns.price && (
-            <div className="flex items-center gap-1">
-              <span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
-                Price
-              </span>
-              <ChevronUpIcon className="w-3.5 h-3.5 text-zinc-500" />
-            </div>
-          )}
+					{visibleColumns.price && (
+						<div className="flex items-center gap-1">
+							<span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
+								Price
+							</span>
+							<BiSort className="w-3.5 h-3.5 text-zinc-500" />
+						</div>
+					)}
 
-          {visibleColumns.status && (
-            <div className="flex items-center gap-1">
-              <span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
-                Status
-              </span>
-              <ChevronUpIcon className="w-3.5 h-3.5 text-zinc-500" />
-            </div>
-          )}
+					{visibleColumns.status && (
+						<div className="flex items-center gap-1">
+							<span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
+								Status
+							</span>
+							<BiSort className="w-3.5 h-3.5 text-zinc-500" />
+						</div>
+					)}
 
-          {visibleColumns.currentTimeline && (
-            <div className="flex items-center gap-1">
-              <span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
-                Current Timeline
-              </span>
-              <ChevronUpIcon className="w-3.5 h-3.5 text-zinc-500" />
-            </div>
-          )}
+					{visibleColumns.currentTimeline && (
+						<div className="flex items-center gap-1">
+							<span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
+								Current Timeline
+							</span>
+							<BiSort className="w-3.5 h-3.5 text-zinc-500" />
+						</div>
+					)}
 
-          {visibleColumns.upcomingTimelines && (
-            <div className="flex items-center gap-1">
-              <span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
-                Upcoming Timelines
-              </span>
-              <ChevronUpIcon className="w-3.5 h-3.5 text-zinc-500" />
-            </div>
-          )}
+					{visibleColumns.upcomingTimelines && (
+						<div className="flex items-center gap-1">
+							<span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
+								Upcoming Timelines
+							</span>
+							<BiSort className="w-3.5 h-3.5 text-zinc-500" />
+						</div>
+					)}
 
-          {visibleColumns.closingDate && (
-            <div className="flex items-center gap-1">
-              <span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
-                Closing Date
-              </span>
-              <ChevronUpIcon className="w-3.5 h-3.5 text-zinc-500" />
-            </div>
-          )}
-        </div>
+					{visibleColumns.closingDate && (
+						<div className="flex items-center gap-1">
+							<span className="font-medium text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
+								Closing Date
+							</span>
+							<BiSort className="w-3.5 h-3.5 text-zinc-500" />
+						</div>
+					)}
+				</div>
 
-        <div className="divide-y divide-gray-200">
-          {filteredTransactions.map((transaction, index) => (
-            <div
-              key={index}
-              className={`grid gap-4 px-6 py-6 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:${(index + 1) * 100}ms]`}
-              style={{
-                gridTemplateColumns: [
-                  '200px', // Address
-                  '150px', // Representing
-                  visibleColumns.price ? '100px' : '',
-                  visibleColumns.status ? '80px' : '',
-                  visibleColumns.currentTimeline ? '200px' : '',
-                  visibleColumns.upcomingTimelines ? '180px' : '',
-                  visibleColumns.closingDate ? '120px' : ''
-                ].filter(Boolean).join(' ')
-              }}
-            >
-              <div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
-                {transaction.address}
-              </div>
+				<div className="divide-y divide-gray-200">
+					{filteredTransactions.map((transaction, index) => (
+						<div
+							key={index}
+							className={`grid gap-4 px-6 py-6 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:${
+								(index + 1) * 100
+							}ms]`}
+							style={{
+								gridTemplateColumns: [
+									"200px", // Address
+									"150px", // Representing
+									visibleColumns.price ? "100px" : "",
+									visibleColumns.status ? "80px" : "",
+									visibleColumns.currentTimeline ? "200px" : "",
+									visibleColumns.upcomingTimelines ? "180px" : "",
+									visibleColumns.closingDate ? "120px" : "",
+								]
+									.filter(Boolean)
+									.join(" "),
+							}}>
+							<div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
+								{transaction.address}
+							</div>
 
-              <div className="flex flex-col gap-1.5 items-start">
-                <div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
-                  {transaction.representing.name}
-                </div>
-                <Badge
-                  variant="secondary"
-                  className="w-fit px-2 py-0.5 bg-zinc-100 text-zinc-900 text-xs font-medium [font-family:'Geist',Helvetica] rounded-full"
-                >
-                  {transaction.representing.role}
-                </Badge>
-              </div>
+							<div className="flex flex-col gap-1.5 items-start">
+								<div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
+									{transaction.representing.name}
+								</div>
+								<Badge
+									variant="secondary"
+									className="w-fit px-2 py-0.5 bg-zinc-100 text-zinc-900 text-xs font-medium [font-family:'Geist',Helvetica] rounded-full">
+									{transaction.representing.role}
+								</Badge>
+							</div>
 
-              {visibleColumns.price && (
-                <div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
-                  {transaction.price}
-                </div>
-              )}
+							{visibleColumns.price && (
+								<div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
+									{transaction.price}
+								</div>
+							)}
 
-              {visibleColumns.status && (
-                <div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
-                  {transaction.status}
-                </div>
-              )}
+							{visibleColumns.status && (
+								<div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
+									{transaction.status}
+								</div>
+							)}
 
-              {visibleColumns.currentTimeline && (
-                <div className="flex flex-col gap-1.5 items-start">
-                  <Badge
-                    variant="secondary"
-                    className="w-fit px-2 py-0.5 bg-zinc-100 text-zinc-900 text-xs font-medium [font-family:'Geist',Helvetica] rounded-full"
-                  >
-                    {transaction.currentTimeline.task}
-                  </Badge>
-                  <div className="flex items-center gap-1.5">
-                    <div className="relative w-[103px] h-[19px] bg-zinc-100 rounded-[22px]">
-                      <div
-                        className="h-[19px] bg-[#2574eb29] rounded-[21px_0px_0px_21px]"
-                        style={{
-                          width: `${(transaction.currentTimeline.progress.current / transaction.currentTimeline.progress.total) * 103}px`,
-                        }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center font-medium text-[#2574eb] text-xs leading-[15px] [font-family:'Geist',Helvetica]">
-                        {transaction.currentTimeline.progress.current}/
-                        {transaction.currentTimeline.progress.total}
-                      </div>
-                    </div>
-                    <span className="font-normal text-zinc-500 text-xs leading-4 [font-family:'Geist',Helvetica]">
-                      {transaction.currentTimeline.date}
-                    </span>
-                    <Badge
-                      className={`px-2 py-0.5 ${transaction.currentTimeline.urgencyColor} text-[10px] font-semibold [font-family:'Geist',Helvetica] rounded-full border-0`}
-                    >
-                      {transaction.currentTimeline.urgency}
-                    </Badge>
-                  </div>
-                </div>
-              )}
+							{visibleColumns.currentTimeline && (
+								<div className="flex flex-col gap-1.5 items-start">
+									<Badge
+										variant="secondary"
+										className="w-fit px-2 py-0.5 bg-zinc-100 text-zinc-900 text-xs font-medium [font-family:'Geist',Helvetica] rounded-full">
+										{transaction.currentTimeline.task}
+									</Badge>
+									<div className="flex items-center gap-1.5">
+										<div className="relative w-[103px] h-[19px] bg-zinc-100 rounded-[22px]">
+											<div
+												className="h-[19px] bg-[#2574eb29] rounded-[21px_0px_0px_21px]"
+												style={{
+													width: `${
+														(transaction.currentTimeline.progress.current /
+															transaction.currentTimeline.progress.total) *
+														103
+													}px`,
+												}}
+											/>
+											<div className="absolute inset-0 flex items-center justify-center font-medium text-[#2574eb] text-xs leading-[15px] [font-family:'Geist',Helvetica]">
+												{transaction.currentTimeline.progress.current}/
+												{transaction.currentTimeline.progress.total}
+											</div>
+										</div>
+										<span className="font-normal text-zinc-500 text-xs leading-4 [font-family:'Geist',Helvetica]">
+											{transaction.currentTimeline.date}
+										</span>
+										<Badge
+											className={`px-2 py-0.5 ${transaction.currentTimeline.urgencyColor} text-[10px] font-semibold [font-family:'Geist',Helvetica] rounded-full border-0`}>
+											{transaction.currentTimeline.urgency}
+										</Badge>
+									</div>
+								</div>
+							)}
 
-              {visibleColumns.upcomingTimelines && (
-                <div className="flex flex-col gap-1.5 items-start">
-                  {transaction.upcomingTimelines.map(
-                    (timeline, timelineIndex) => (
-                      <div
-                        key={timelineIndex}
-                        className="flex items-center gap-1"
-                      >
-                        <Badge
-                          variant="secondary"
-                          className="px-2 py-0.5 bg-zinc-100 text-zinc-900 text-xs font-medium [font-family:'Geist',Helvetica] rounded-full"
-                        >
-                          {timeline.task}
-                        </Badge>
-                        <Badge
-                          className={`px-2 py-0.5 ${timeline.urgencyColor} text-[10px] font-semibold [font-family:'Geist',Helvetica] rounded-full border-0`}
-                        >
-                          {timeline.urgency}
-                        </Badge>
-                      </div>
-                    ),
-                  )}
-                </div>
-              )}
+							{visibleColumns.upcomingTimelines && (
+								<div className="flex flex-col gap-1.5 items-start">
+									{transaction.upcomingTimelines.map(
+										(timeline, timelineIndex) => (
+											<div
+												key={timelineIndex}
+												className="flex items-center gap-1">
+												<Badge
+													variant="secondary"
+													className="px-2 py-0.5 bg-zinc-100 text-zinc-900 text-xs font-medium [font-family:'Geist',Helvetica] rounded-full">
+													{timeline.task}
+												</Badge>
+												<Badge
+													className={`px-2 py-0.5 ${timeline.urgencyColor} text-[10px] font-semibold [font-family:'Geist',Helvetica] rounded-full border-0`}>
+													{timeline.urgency}
+												</Badge>
+											</div>
+										)
+									)}
+								</div>
+							)}
 
-              {visibleColumns.closingDate && (
-                <div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
-                  {transaction.closingDate}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+							{visibleColumns.closingDate && (
+								<div className="font-medium text-zinc-900 text-sm leading-5 [font-family:'Geist',Helvetica] text-left">
+									{transaction.closingDate}
+								</div>
+							)}
+						</div>
+					))}
+				</div>
+			</div>
+			</Link>
+		</section>
   );
 };

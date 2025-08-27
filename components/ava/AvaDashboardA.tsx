@@ -63,27 +63,21 @@ export const AvaDashboard = (): JSX.Element => {
     }));
   };
   return (
-    <div
-      className="bg-white my-10 min-h-screen w-full opacity-0 animate-fade-in"
-      data-model-id="1267:794"
-    >
-      <div className="flex h-screen">
+   <div className="bg-white my-4 min-h-screen w-full max-w-none overflow-hidden opacity-0 animate-fade-in">
+      <div className="w-full">
         {/* Main Content Area */}
-        <main className="flex flex-col">
+        <main className="flex flex-col w-full">
           {/* Header Section with Greeting */}
-          <div className="  opacity-0  animate-fade-up [--animation-delay:600ms]">
-            <HeaderSection />
-          </div>
-
-          {/* Date Display */}
-          <div className="px-6 pb-3 opacity-0 animate-fade-up [--animation-delay:700ms]">
+          <div className="mb-3 opacity-0 animate-fade-up [--animation-delay:700ms]">
             <span className="font-normal text-zinc-500 text-sm leading-5 [font-family:'Geist',Helvetica]">
               Thursday, July 31
             </span>
           </div>
-
+          
+          <HeaderSection />
+          
           {/* Tab Navigation */}
-          <div className=" pb-3 opacity-0 animate-fade-up [--animation-delay:800ms]">
+          <div className="pb-3 opacity-0 animate-fade-up [--animation-delay:800ms]">
             <MainContentSection 
               onTabChange={handleTabChange}
               activeTab={activeTab}
@@ -91,10 +85,10 @@ export const AvaDashboard = (): JSX.Element => {
           </div>
 
           {/* Recent Transactions Card */}
-          <div className="flex-1 ">
-            <Card className="bg-white w-full rounded-lg border border-zinc-200">
+          <div className="flex-1 w-full">
+            <Card className="bg-white w-full max-w-none rounded-lg border border-zinc-200 overflow-hidden">
               {/* Header Section */}
-              <MHeader
+              <MHeader 
                 onStatusFilter={setStatusFilter}
                 onTypeFilter={setTypeFilter}
                 activeStatusFilter={statusFilter}
@@ -102,13 +96,15 @@ export const AvaDashboard = (): JSX.Element => {
                 onColumnToggle={handleColumnToggle}
                 visibleColumns={visibleColumns}
               />
-
+              
               {/* Transactions List Section */}
-              <MTable
-                statusFilter={statusFilter}
-                typeFilter={typeFilter}
-                visibleColumns={visibleColumns}
-              />
+              <div className="w-full ">
+                <MTable 
+                  statusFilter={statusFilter}
+                  typeFilter={typeFilter}
+                  visibleColumns={visibleColumns}
+                />
+              </div>
             </Card>
           </div>
         </main>

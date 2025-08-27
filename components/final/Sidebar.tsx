@@ -87,7 +87,7 @@ export const Sidebar = () => {
     <>
     
     <div className={`bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ${
-      isCollapsed ? 'w-16' : 'w-64'
+      isCollapsed ? 'w-16' : 'w-56'
     }`}>
         
       {/* Header */}
@@ -116,7 +116,7 @@ export const Sidebar = () => {
 
       {/* New Transaction Button */}
       {!isCollapsed && (
-        <div className="p-4 flex-shrink-0">
+        <div className="p-3 flex-shrink-0">
          {/* <TransactionTypeDialog/> */}
          <TransactionModalComponent/>
         </div>
@@ -202,7 +202,7 @@ export const Sidebar = () => {
                 </div>
               </Link>
 
- <Link href={'/pending'}>
+              <Link href={'/pending'}>
                 <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
                 onClick={() => setActiveSection('pending')}>
                   <div className="flex items-center space-x-3">
@@ -224,18 +224,18 @@ export const Sidebar = () => {
 
                <Link href={'/'}>
                 <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
-                onClick={() => setActiveSection('closed')}>
+                onClick={() => setActiveSection('void')}>
                   <div className="flex items-center space-x-3">
-                    <span className={`text-sm ${activeSection === 'closed' ? 'text-blue-500' : 'text-gray-600'}`}>Void</span>
+                    <span className={`text-sm ${activeSection === 'void' ? 'text-blue-500' : 'text-gray-600'}`}>Void</span>
                   </div>
                   <ChevronRight size={16} className="text-gray-400" />
                 </div>
               </Link>
-  <Link href={'/closed'}>
+              <Link href={'/expired'}>
                 <div className="flex items-center justify-between px-2 py-1 hover:bg-gray-50 rounded cursor-pointer"
-                onClick={() => setActiveSection('closed')}>
+                onClick={() => setActiveSection('expired')}>
                   <div className="flex items-center space-x-3">
-                    <span className={`text-sm ${activeSection === 'closed' ? 'text-blue-500' : 'text-gray-600'}`}>Expired</span>
+                    <span className={`text-sm ${activeSection === 'expired' ? 'text-blue-500' : 'text-gray-600'}`}>Expired</span>
                   </div>
                   <ChevronRight size={16} className="text-gray-400" />
                 </div>
@@ -382,63 +382,93 @@ export const Sidebar = () => {
           </div>
         )}
 
-        {/* Collapsed Icons Only */}
+        {/* Collapsed Icons Only with Links */}
         {isCollapsed && (
           <div className="space-y-2">
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <LayoutDashboard size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <GitBranch size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <FileText size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer relative">
-              <ArrowUpCircle size={18} className="text-gray-600" />
-              <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                1
-              </span>
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <CheckCircle size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <XCircle size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Trash2 size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Users size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <BarChart3 size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <BookOpen size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Activity size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <List size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Bell size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Settings size={18} className="text-gray-600" />
-            </div>
-            <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <LogOut size={18} className="text-gray-600" />
-            </div>
+            <Link href={'/'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <LayoutDashboard size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/pipeline'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <GitBranch size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/transactions'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer relative">
+                <FileText size={18} className="text-gray-600" />
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  23
+                </span>
+              </div>
+            </Link>
+            <Link href={'/opportunites'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <ArrowUpCircle size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/transactions'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <CheckCircle size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/pending'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <XCircle size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/closed'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <Trash2 size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/contact'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <Users size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/reports'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <BarChart3 size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/library'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <BookOpen size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/activity'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <Activity size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/checklists'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <List size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/notifications'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <Bell size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/add-ons'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <Settings size={18} className="text-gray-600" />
+              </div>
+            </Link>
+            <Link href={'/signout'}>
+              <div className="flex items-center justify-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
+                <LogOut size={18} className="text-gray-600" />
+              </div>
+            </Link>
           </div>
         )}
       </div>
 
       {/* User Profile at Bottom - Fixed Position */}
-      <div className="border-t border-gray-200 p-4 flex-shrink-0">
+      <div className="border-t border-gray-200 p-3 flex-shrink-0">
         {!isCollapsed ? (
           <div className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
             <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">

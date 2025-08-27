@@ -25,12 +25,12 @@ export const Transactions = (): JSX.Element => {
   };
 
   return (
-    <div className="bg-white w-full animate-fade-in">
+    <div className="bg-white min-h-screen w-full animate-fade-in my-5">
       {/* Main Layout */}
       <div className="flex">
         {/* Main Content Area */}
-        <div className="flex-1">
-          <Card className="bg-white my-3 w-full rounded-lg border border-zinc-200">
+         <div className="flex-1 w-full">
+                    <Card className="bg-white w-full max-w-none rounded-lg border border-zinc-200 overflow-hidden">
             {/* Header Section */}
             <HeaderSectionFinal
               onStatusFilter={setStatusFilter}

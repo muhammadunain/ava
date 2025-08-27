@@ -105,7 +105,7 @@ const ProjectManagementUI = () => {
   return (
     <div className="bg-white min-h-screen">
       {/* Header */}
-      <div className="border-b border-gray-200 px-6 py-4">
+      <div className="border-b border-gray-200  py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <h1 className="text-xl font-semibold text-gray-900">410 FLAGSHIP DR #501</h1>
@@ -127,13 +127,13 @@ const ProjectManagementUI = () => {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b border-gray-300 px-6 bg-gray-100 rounded-md">
+      <div className="border-b border-gray-300  bg-gray-100 rounded-md">
         <nav className="flex   items-center justify-between p-1  ">
           {tabs.map(({ name, icon: Icon }) => (
             <button
               key={name}
               onClick={() => setActiveTab(name)}
-              className={`py-2  px-2 flex items-center gap-1 cursor-pointer justify-center  text-xs font-medium w-full ${
+              className={`py-2   flex items-center gap-1 cursor-pointer justify-center  text-xs font-medium w-full ${
                 activeTab === name
                   ? 'bg-white shadow-sm rounded-sm text-gray-900'
                   : 'text-gray-500 hover:text-gray-700'
@@ -147,7 +147,7 @@ const ProjectManagementUI = () => {
       </div>
 
       {/* Content based on active tab */}
-      <div className="px-6 py-6">
+      <div className=" py-6">
         {activeTab === 'Tasks' && (
           // <>
           

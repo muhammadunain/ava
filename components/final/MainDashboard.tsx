@@ -201,8 +201,8 @@ export default function MainDashboard() {
 	};
 
 	return (
-		<div className="">
-			<div className=" ">
+		<div>
+			<div>
 				{/* Header */}
 				{/* <DashboardStats /> */}
 				{/* <TransactionsDashboard/> */}
